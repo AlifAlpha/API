@@ -37,9 +37,9 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 //bring routes
-// const authRouter = require("./routes/auth");
+const leaveTypesRouter = require("./routers/leaveTypes");
 
-// app.use("/", authRouter);
+app.use("/", leaveTypesRouter);
 
 const port = process.env.PORT || 8080;
 
