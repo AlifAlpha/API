@@ -38,8 +38,10 @@ app.use(cookieParser());
 
 //bring routes
 const leaveTypesRouter = require("./routers/leaveTypes");
+const users = require("./routers/users");
 
 app.use("/", leaveTypesRouter);
+app.use("/", users);
 
 const port = process.env.PORT || 8080;
 
