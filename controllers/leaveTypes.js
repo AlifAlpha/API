@@ -15,15 +15,30 @@ exports.createLeaveType = async (req, res) => {
 };
 
 exports.getLeavesType = (req, res) => {
-  LeaveType.find()
-    .then((data) => {
-      let formatData = [];
-      for (let i = 0; i < data.length; i++) {
-        formatData.push(data[i].transform());
-      }
-      res.status(200).json(formatData);
-    })
-    .catch((err) => console.log(err));
+  let range = req.query.range || "[0,9]";
+  let sort = req.query.sort || '["name","ASC"]';
+  let count;
+  range = JSON.parse(range);
+  sort = JSON.parse(sort);
+
+  LeaveType.countDocuments(function (err, c) {
+    count = c;
+    let map = new Map([sort]);
+    LeaveType.find()
+      .sort(Object.fromEntries(map))
+      .then((data) => {
+        let formatData = [];
+        for (let i = 0; i < data.length; i++) {
+          formatData.push(data[i].transform());
+        }
+        res.set(
+          "content-Range",
+          `leavetype ${range[0]}-${range[1] + 1}/${count}`
+        );
+        res.status(200).json(formatData);
+      })
+      .catch((err) => console.log(err));
+  });
 };
 
 exports.leaveTypeById = (req, res, next, id) => {
@@ -48,7 +63,7 @@ exports.leaveTypeById = (req, res, next, id) => {
 exports.getOneLeaveType = (req, res) => {
   let leaveType = req.leaveType;
   if (leaveType) {
-    res.json(leaveType);
+    res.json(leaveType.transform());
   } else {
     res.status(400).json({ message: "Leave types not found" });
   }
@@ -62,7 +77,7 @@ exports.updateLeaveType = (req, res) => {
     if (err) {
       return res.status(403).json({ error: err });
     }
-    res.status(200).json(leavetype);
+    res.status(200).json(leavetype.transform());
   });
 };
 
