@@ -41,21 +41,22 @@ exports.getLeavesType = (req, res) => {
   });
 };
 
-exports.leaveTypeById = (req, res, next, id) => {
-  LeaveType.findById(id).exec((err, data) => {
-    if (err)
-      return res.status(200).json({ id: "", message: "Sick Leave not found" });
-    req.leaveType = data;
-    res.json(data);
+// exports.leaveTypeById = (req, res, next, id) => {
+//   LeaveType.findById(id).exec((err, data) => {
+//     if (err)
+//       return res.status(200).json({ id: "", message: "Sick Leave not found" });
+//     req.leaveType = data;
+//     res.json(data.transform());
 
-    next();
-  });
-};
+//     next();
+//   });
+// };
 exports.leaveTypeById = (req, res, next, id) => {
   LeaveType.findById(id).exec((err, data) => {
     if (err)
       return res.status(200).json({ id: "", message: "Sick Leave not found" });
     req.leaveType = data;
+
     next();
   });
 };
@@ -64,7 +65,7 @@ exports.getOneLeaveType = (req, res) => {
   if (leaveType) {
     res.json(leaveType.transform());
   } else {
-    res.status(200).json({ message: "Leave types not found", id: "" });
+    res.status(400).json({ message: "Leave types not found" });
   }
 };
 
