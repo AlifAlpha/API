@@ -1,34 +1,32 @@
 const mongoose = require("mongoose");
 
 const employeesSchema = new mongoose.Schema({
-  IID: {
+  uid: {
     required: true,
     type: String,
     trim: true,
+    uppercase: true,
   },
   name: {
     required: true,
     type: String,
     trim: true,
+    uppercase: true,
   },
-  Position: {
+
+  phone: {
     required: true,
     type: String,
     trim: true,
   },
-  Phone: {
-    required: true,
-    type: String,
-    trim: true,
-  },
-  Email: {
+  email: {
     required: true,
     type: String,
     trim: true,
   },
 });
 
-leaveTypeSchema.method("transform", function () {
+employeesSchema.method("transform", function () {
   let obj = this.toObject();
 
   //id renaming
