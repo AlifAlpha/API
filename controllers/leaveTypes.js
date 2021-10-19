@@ -46,7 +46,7 @@ exports.leaveTypeById = (req, res, next, id) => {
     if (err)
       return res.status(200).json({ id: "", message: "Sick Leave not found" });
     req.leaveType = data;
-    res.json(data.transform());
+    res.json(data);
 
     next();
   });
@@ -56,16 +56,15 @@ exports.leaveTypeById = (req, res, next, id) => {
     if (err)
       return res.status(200).json({ id: "", message: "Sick Leave not found" });
     req.leaveType = data;
-
     next();
   });
 };
 exports.getOneLeaveType = (req, res) => {
   let leaveType = req.leaveType;
   if (leaveType) {
-    res.json(leaveType);
+    res.json(leaveType.transform());
   } else {
-    res.status(400).json({ message: "Leave types not found" });
+    res.status(200).json({ message: "Leave types not found", id: "" });
   }
 };
 
@@ -77,7 +76,7 @@ exports.updateLeaveType = (req, res) => {
     if (err) {
       return res.status(403).json({ error: err });
     }
-    res.status(200).json(leavetype);
+    res.status(200).json(leavetype.transform());
   });
 };
 
