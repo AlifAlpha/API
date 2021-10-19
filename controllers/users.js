@@ -58,38 +58,12 @@ exports.getUsers = (req, res) => {
   });
 };
 
-exports.signin = (req, res) => {
-  //find the user based on email
-  const { email, password } = req.body;
-  //if error or no user
-  User.findOne({ email }, (err, user) => {
-    if (err || !user) {
-      return res.status(401).json({
-        error: "User with that email does not exist. Please signup",
-      });
-    }
-    // if user found make sure the email end the password match
-    if (!user.authenticate(password)) {
-      return res.status(401).json({
-        error: "Email and password do not match",
-      });
-    }
-    //generte a token with user id and secret key
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
-    //persist the token as 't' in cookie with expiry date
-    res.cookie("t", token, { expire: new Date() + 1300 });
-    // return respons with user and token to frontend cleint
-    const { _id, email, name } = user;
-    res.json({ token, user: { _id, email, name } });
-  });
-};
-
 exports.getUserOne = (req, res, next, id) => {
   User.findById(id)
-    .select("name role email phoneNumber city isActivated created")
+    .select("id name role email phoneNumber city isActivated created")
     .exec((err, data) => {
-      req.user = data;
-
+      req.user = data.transform();
+      console.log(data);
       next();
     });
 };
@@ -98,7 +72,7 @@ exports.getUserById = (req, res) => {
   user = req.user;
   if (user) {
     res.set("Content-Range", `user 0-1/1`);
-    res.json(user.transform());
+    res.json(user);
   } else res.status(200).json({ id: "", messsage: "User not found" });
 };
 
@@ -123,16 +97,3 @@ exports.deleteUser = (req, res) => {
     res.json({ message: "user deleted successfully" });
   });
 };
-
-exports.signout = (req, res) => {
-  res.clearCookie("t");
-  return res.json({
-    message: "Singout success",
-  });
-};
-
-exports.requireSignin = expressJwt({
-  secret: process.env.JWT_SECRET,
-  userProperty: "auth",
-  algorithms: ["HS256"],
-});

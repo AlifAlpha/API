@@ -18,8 +18,8 @@ router.get("/user/:userId", getUserById);
 router.put("/user/:userId", updateUser);
 router.delete("/user/:userId", deleteUser);
 
-router.post("/user", signin);
-router.get("/user", signout);
+// router.post("/user", signin);
+// router.get("/user", signout);
 
 router.param("userId", getUserOne);
 
