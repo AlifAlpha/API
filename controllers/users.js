@@ -62,8 +62,9 @@ exports.getUserOne = (req, res, next, id) => {
   User.findById(id)
     .select("id name role email phoneNumber city isActivated created")
     .exec((err, data) => {
-      req.user = data.transform();
-      console.log(data);
+      if (err)
+        return res.status(200).json({ id: "", message: "user not found" });
+      req.user = data;
       next();
     });
 };
@@ -72,9 +73,20 @@ exports.getUserById = (req, res) => {
   user = req.user;
   if (user) {
     res.set("Content-Range", `user 0-1/1`);
-    res.json(user);
+    res.json(user.transform());
   } else res.status(200).json({ id: "", messsage: "User not found" });
 };
+
+// exports.updateUser = (req, res) => {
+//   let user = req.user;
+//   user = _.extend(user, req.body);
+//   user.save((err, user) => {
+//     if (err) {
+//       return res.status(403).json({ error: err });
+//     }
+//     return res.status(200).json(user.transform());
+//   });
+// };
 
 exports.updateUser = (req, res) => {
   let user = req.user;
