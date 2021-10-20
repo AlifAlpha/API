@@ -15,7 +15,7 @@ exports.createLeave = async (req, res) => {
   console.log(req.body);
   const leave = await new Leaves(req.body);
   await leave.save();
-  res.status(200).json({ ...leave.transform() });
+  res.status(200).json({ message: "leave requist seccussfully submited" });
 };
 exports.getLeaves = (req, res) => {
   let range = req.query.range || "[0,9]";
@@ -109,4 +109,15 @@ exports.updateLeave = (req, res) => {
     return res.status(200).json(leave.transform());
   });
 };
-// exports.deleteLeave = (req, res) => {};
+exports.deleteLeave = (req, res) => {
+  let leave = req.leave;
+
+  leave.remove((err, leave) => {
+    if (err) {
+      return res.status(400).json({ error: err });
+    }
+    res.json({
+      message: "leave deleted successfully",
+    });
+  });
+};

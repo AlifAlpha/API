@@ -24,7 +24,7 @@ const leaveSchema = new mongoose.Schema({
   statu: {
     required: true,
     type: String,
-    default: "pendding",
+    default: "pending",
   },
   substitut: {
     type: ObjectId,
