@@ -41,11 +41,13 @@ const leaveTypesRouter = require("./routers/leaveTypes");
 const users = require("./routers/users");
 const auth = require("./routers/auth");
 const employeeRouter = require("./routers/employees");
+const leave = require("./routers/leaves");
 
 app.use("/", leaveTypesRouter);
 app.use("/", users);
 app.use("/", auth);
 app.use("/", employeeRouter);
+app.use("/", leave);
 
 const port = process.env.PORT || 8080;
 
