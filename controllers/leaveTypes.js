@@ -40,17 +40,6 @@ exports.getLeavesType = (req, res) => {
       .catch((err) => console.log(err));
   });
 };
-
-// exports.leaveTypeById = (req, res, next, id) => {
-//   LeaveType.findById(id).exec((err, data) => {
-//     if (err)
-//       return res.status(200).json({ id: "", message: "Sick Leave not found" });
-//     req.leaveType = data;
-//     res.json(data.transform());
-
-//     next();
-//   });
-// };
 exports.leaveTypeById = (req, res, next, id) => {
   LeaveType.findById(id).exec((err, data) => {
     if (err)

@@ -1,4 +1,5 @@
 const Leaves = require("../models/leaves");
+const _ = require("lodash");
 
 exports.createLeave = async (req, res) => {
   const leaveExists = await Leaves.findOne({
@@ -77,7 +78,35 @@ exports.getLeaves = (req, res) => {
       });
   });
 };
-exports.getLeaveById = (req, res, next, id) => {};
-exports.getOneLeave = (req, res) => {};
-exports.updateLeave = (req, res) => {};
+exports.getLeaveById = (req, res, next, id) => {
+  Leaves.findById(id).exec((err, data) => {
+    if (err) {
+      return res.status(200).json({ error: "Leaves not found" });
+    }
+    req.leave = data;
+
+    next();
+  });
+};
+exports.getOneLeave = (req, res) => {
+  leave = req.leave;
+  if (leave) {
+    res.set("Content-Range", `leave 0-1/1`);
+    res.json(leave.transform());
+  } else
+    res.status(200).json({
+      id: "",
+      message: "leave not found",
+    });
+};
+exports.updateLeave = (req, res) => {
+  let leave = req.leave;
+  leave = _.extend(leave, req.body);
+  leave.save((err, leave) => {
+    if (err) {
+      return res.status(403).json({ error: err });
+    }
+    return res.status(200).json(leave.transform());
+  });
+};
 // exports.deleteLeave = (req, res) => {};
