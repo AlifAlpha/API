@@ -11,7 +11,7 @@ exports.createEmployee = async (req, res) => {
   console.log(req.body);
   const employee = await new Employee(req.body);
   await employee.save();
-  res.status(200).json({ ...employee.transform() });
+  res.status(200).json(employee.transform());
 };
 
 exports.getEmployees = (req, res) => {
@@ -56,7 +56,7 @@ exports.getOneEmployee = (req, res) => {
   if (employee) {
     res.json(employee.transform());
   } else {
-    res.status(400).json({ message: "Employee not found" });
+    res.status(200).json({ id: "", message: "Employee not found" });
   }
 };
 
