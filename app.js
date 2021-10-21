@@ -43,6 +43,7 @@ const auth = require("./routers/auth");
 const employeeRouter = require("./routers/employees");
 const leave = require("./routers/leaves");
 const department = require("./routers/department");
+const itreq = require("./routers/itreq");
 
 app.use("/", leaveTypesRouter);
 app.use("/", users);
@@ -50,9 +51,10 @@ app.use("/", auth);
 app.use("/", employeeRouter);
 app.use("/", leave);
 app.use("/", department);
+app.use("/", itreq);
 
 const port = process.env.PORT || 8080;
 
 app.listen(port, () => {
-  console.log(`node api lisnting to port : ${port}`);
+  console.log(`node api listening to port : ${port}`);
 });
