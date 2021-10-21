@@ -44,6 +44,7 @@ const employeeRouter = require("./routers/employees");
 const leave = require("./routers/leaves");
 const department = require("./routers/department");
 const itreq = require("./routers/itreq");
+const itreqfrom = require("./routers/itreqform");
 
 app.use("/", leaveTypesRouter);
 app.use("/", users);
@@ -52,6 +53,7 @@ app.use("/", employeeRouter);
 app.use("/", leave);
 app.use("/", department);
 app.use("/", itreq);
+app.use("/", itreqfrom);
 
 const port = process.env.PORT || 8080;
 

@@ -29,16 +29,6 @@ exports.getItreqform = (req, res) => {
   if (filter.name) {
     filter.name = { $regex: ".*" + filter.name + ".*" };
   }
-  if (filter.end) {
-    let dateStr = new Date(filter.end);
-    let nextDate = new Date(filter.end);
-    nextDate.setDate(nextDate.getDate() + 1);
-    console.log(dateStr, nextDate);
-    filter.end = {
-      $gte: new Date(dateStr),
-      $lte: new Date(nextDate),
-    };
-  }
   if (filter.start) {
     let dateStr = new Date(filter.start);
     let nextDate = new Date(filter.start);
@@ -57,11 +47,11 @@ exports.getItreqform = (req, res) => {
   }
   console.log(filter);
 
-  Leaves.countDocuments(filter, function (err, c) {
+  Itreqform.countDocuments(filter, function (err, c) {
     count = c;
     // console.log("hello", c);
     let map = new Map([sort]);
-    Leaves.find(filter)
+    Itreqform.find(filter)
       .sort(Object.fromEntries(map))
       .skip(range[0])
       .limit(range[1] + 1 - range[0])
@@ -71,7 +61,10 @@ exports.getItreqform = (req, res) => {
         for (let i = 0; i < data.length; i++) {
           formatData.push(data[i].transform());
         }
-        res.set("Content-Range", `leaves ${range[0]}-${range[1] + 1}/${count}`);
+        res.set(
+          "Content-Range",
+          `Itreqform ${range[0]}-${range[1] + 1}/${count}`
+        );
         res.status(200).json(formatData);
       })
       .catch((err) => {
@@ -79,46 +72,46 @@ exports.getItreqform = (req, res) => {
       });
   });
 };
-exports.getLeaveById = (req, res, next, id) => {
-  Leaves.findById(id).exec((err, data) => {
+exports.getItreqformById = (req, res, next, id) => {
+  Itreqform.findById(id).exec((err, data) => {
     if (err) {
-      return res.status(200).json({ error: "Leaves not found" });
+      return res.status(200).json({ error: "Itreqform not found" });
     }
-    req.leave = data;
+    req.itreqform = data;
 
     next();
   });
 };
-exports.getOneLeave = (req, res) => {
-  leave = req.leave;
-  if (leave) {
-    res.set("Content-Range", `leave 0-1/1`);
-    res.json(leave.transform());
+exports.getOneItreqform = (req, res) => {
+  itreqform = req.itreqform;
+  if (itreqform) {
+    res.set("Content-Range", `itreqform 0-1/1`);
+    res.json(itreqform.transform());
   } else
     res.status(200).json({
       id: "",
-      message: "leave not found",
+      message: "itreqform not found",
     });
 };
-exports.updateLeave = (req, res) => {
-  let leave = req.leave;
-  leave = _.extend(leave, req.body);
-  leave.save((err, leave) => {
+exports.updateItreqform = (req, res) => {
+  let itreqform = req.itreqform;
+  itreqform = _.extend(itreqform, req.body);
+  itreqform.save((err, itreqform) => {
     if (err) {
       return res.status(403).json({ error: err });
     }
-    return res.status(200).json(leave.transform());
+    return res.status(200).json(itreqform.transform());
   });
 };
-exports.deleteLeave = (req, res) => {
-  let leave = req.leave;
+exports.deleteItreqform = (req, res) => {
+  let itreqform = req.itreqform;
 
-  leave.remove((err, leave) => {
+  itreqform.remove((err, itreqform) => {
     if (err) {
       return res.status(400).json({ error: err });
     }
     res.json({
-      message: "leave deleted successfully",
+      message: "itreqform deleted successfully",
     });
   });
 };

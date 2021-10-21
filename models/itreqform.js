@@ -37,11 +37,13 @@ const itreqformSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
-  itreq: {
-    type: ObjectId,
-    ref: Itreq,
-    required: true,
-  },
+  itreq: [
+    {
+      type: ObjectId,
+      ref: Itreq,
+      required: true,
+    },
+  ],
 });
 
 itreqformSchema.method("transform", function () {
