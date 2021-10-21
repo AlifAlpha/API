@@ -1,25 +1,26 @@
-const Leaves = require("../models/leaves");
+const Itreqform = require("../models/itreqform");
 const _ = require("lodash");
+const itreq = require("../models/itreq");
 
-exports.createLeave = async (req, res) => {
-  const leaveExists = await Leaves.findOne({
-    name: req.body.name,
-    start: req.body.start,
-    end: req.body.end,
-  });
-  if (leaveExists) {
-    return res.status(403).json({
-      error: "Leave already exists",
-    });
-  }
+exports.createItreqform = async (req, res) => {
+  //   const leaveExists = await Leaves.findOne({
+  //     name: req.body.name,
+  //     start: req.body.start,
+  //     end: req.body.end,
+  //   });
+  //   if (leaveExists) {
+  //     return res.status(403).json({
+  //       error: "Leave already exists",
+  //     });
+  //   }
   console.log(req.body);
-  const leave = await new Leaves(req.body);
-  await leave.save();
-  res.status(200).json({ message: "leave request seccussfully submited" });
+  const itreqform = await new Itreqform(req.body);
+  await itreqform.save();
+  res.status(200).json({ message: "IT request form is submitted" });
 };
-exports.getLeaves = (req, res) => {
+exports.getItreqform = (req, res) => {
   let range = req.query.range || "[0,9]";
-  let sort = req.query.sort || '["RegisteredAt" , "DESC"]';
+  let sort = req.query.sort || '["start" , "DESC"]';
   let filter = req.query.filter || "{}";
   let count;
   range = JSON.parse(range);

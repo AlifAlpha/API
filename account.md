@@ -10,8 +10,4 @@
 
 ## pw : wcmhk9G&
 
-##### mongodb
-
-## email : kayde.todd@zooants.com
-
-## pw : megbr8G&
+## git push -u https://github.com/AeerBin/ISESCO-Api.git master
