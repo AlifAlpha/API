@@ -42,12 +42,14 @@ const users = require("./routers/users");
 const auth = require("./routers/auth");
 const employeeRouter = require("./routers/employees");
 const leave = require("./routers/leaves");
+const department = require("./routers/department");
 
 app.use("/", leaveTypesRouter);
 app.use("/", users);
 app.use("/", auth);
 app.use("/", employeeRouter);
 app.use("/", leave);
+app.use("/", department);
 
 const port = process.env.PORT || 8080;
 
