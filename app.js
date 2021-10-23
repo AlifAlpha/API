@@ -45,6 +45,7 @@ const leave = require("./routers/leaves");
 const department = require("./routers/department");
 const itreq = require("./routers/itreq");
 const itreqfrom = require("./routers/itreqform");
+const dgapp = require("./routers/dgapp");
 
 app.use("/", leaveTypesRouter);
 app.use("/", users);
@@ -54,6 +55,7 @@ app.use("/", leave);
 app.use("/", department);
 app.use("/", itreq);
 app.use("/", itreqfrom);
+app.use("/", dgapp);
 
 const port = process.env.PORT || 8080;
 
