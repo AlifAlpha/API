@@ -6,6 +6,7 @@ const DepartmentSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  //hello
 });
 
 DepartmentSchema.method("transform", function () {
