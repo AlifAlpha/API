@@ -57,24 +57,24 @@ exports.getOneDgApp = (req, res) => {
   }
 };
 
-// exports.updateEmployee = (req, res) => {
-//   let employee = req.employee;
-//   employee = _.extend(employee, req.body);
+exports.updateDgApp = (req, res) => {
+  let dgApp = req.dgApp;
+  dgApp = _.extend(dgApp, req.body);
 
-//   employee.save((err, leavetype) => {
-//     if (err) {
-//       return res.status(403).json({ error: err });
-//     }
-//     res.status(200).json(employee.transform());
-//   });
-// };
+  dgApp.save((err, dgApp) => {
+    if (err) {
+      return res.status(403).json({ error: err });
+    }
+    res.status(200).json(dgApp.transform());
+  });
+};
 
-// exports.deleteEmployee = (req, res) => {
-//   let employee = req.employee;
-//   employee.remove((err) => {
-//     if (err) {
-//       return res.status(400).json({ error: err });
-//     }
-//     res.status(200).json({ message: "Employee deleted successfully" });
-//   });
-// };
+exports.deleteDgApp = (req, res) => {
+  let dgApp = req.dgApp;
+  dgApp.remove((err) => {
+    if (err) {
+      return res.status(400).json({ error: err });
+    }
+    res.status(200).json({ message: "Appointment deleted successfully" });
+  });
+};

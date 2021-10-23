@@ -1,17 +1,22 @@
 const mongoose = require("mongoose");
 
 const DgAppSchema = new mongoose.Schema({
+  // appType: {
+  //   // required: true,
+  //   inPerson: {
+  //     meeting: { type: Boolean, default: false },
+  //     visit: { type: Boolean, default: false },
+  //     sign: { type: Boolean, default: false },
+  //   },
+  //   virtual: {
+  //     visit: { type: Boolean, default: false },
+  //     sign: { type: Boolean, default: false },
+  //   },
+  // },
   appType: {
-    // required: true,
-    inPerson: {
-      meeting: { type: Boolean, default: false },
-      visit: { type: Boolean, default: false },
-      sign: { type: Boolean, default: false },
-    },
-    virtual: {
-      visit: { type: Boolean, default: false },
-      sign: { type: Boolean, default: false },
-    },
+    required: true,
+    type: String,
+    trim: true,
   },
   startMeet: {
     required: true,

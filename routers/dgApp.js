@@ -4,14 +4,16 @@ const {
   getDgApp,
   getDgAppById,
   getOneDgApp,
+  updateDgApp,
+  deleteDgApp,
 } = require("../controllers/dgApp");
 
 const router = express.Router();
 router.post("/dgapp", createDgApp);
 router.get("/dgapp", getDgApp);
 router.get("/dgapp/:dgAppId", getOneDgApp);
-// router.put("/dgapp/:dgAppId", updateItreqform);
-// router.delete("/dgapp/:dgAppId", deleteItreqform);
+router.put("/dgapp/:dgAppId", updateDgApp);
+router.delete("/dgapp/:dgAppId", deleteDgApp);
 
 router.param("dgAppId", getDgAppById);
 
