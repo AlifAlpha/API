@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
+
 app.use(
   cors({
     origin: "*",
@@ -18,7 +19,6 @@ app.use(
 
 dotenv.config();
 
-// db config
 mongoose
   .connect(process.env.MONGO_URI, {
     useUnifiedTopology: true,
@@ -46,6 +46,7 @@ const department = require("./routers/department");
 const itreq = require("./routers/itreq");
 const itreqfrom = require("./routers/itreqform");
 const dgapp = require("./routers/dgApp");
+const city = require("./routers/cities");
 
 app.use("/", leaveTypesRouter);
 app.use("/", users);
@@ -56,6 +57,7 @@ app.use("/", department);
 app.use("/", itreq);
 app.use("/", itreqfrom);
 app.use("/", dgapp);
+app.use("/", city);
 
 const port = process.env.PORT || 8080;
 
