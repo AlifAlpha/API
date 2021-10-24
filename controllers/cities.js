@@ -59,6 +59,38 @@ exports.getCities = (req, res) => {
   });
 };
 
+exports.getCitiesAll = (req, res) => {
+  let range = req.query.range || "[0,9]";
+  let sort = req.query.sort || '["name" , "ASC"]';
+  let filter = req.query.filter || "{}";
+  let count;
+  range = JSON.parse(range);
+  sort = JSON.parse(sort);
+  filter = JSON.parse(filter);
+  if (filter.name) {
+    filter.name = { $regex: ".*" + filter.name + ".*" };
+  }
+  City.countDocuments(function (err, c) {
+    count = c;
+    let map = new Map([sort]);
+    City.find()
+      .sort(Object.fromEntries(map))
+      // .skip(range[0])
+      // .limit(range[1] + 1 - range[0])
+      .then((data) => {
+        let formatData = [];
+        for (let i = 0; i < data.length; i++) {
+          formatData.push(data[i].transform());
+        }
+        res.set("Content-Range", `city ${range[0]}-${range[1] + 1}/${count}`);
+        res.status(200).json(formatData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+};
+
 exports.updateCity = (req, res) => {
   let city = req.city;
   city = _.extend(city, req.body);
