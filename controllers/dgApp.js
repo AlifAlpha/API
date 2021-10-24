@@ -11,7 +11,7 @@ exports.createDgApp = async (req, res) => {
   console.log(req.body);
   const dgApp = await new DgApp(req.body);
   await dgApp.save();
-  res.status(200).json(dgApp.transform());
+  res.status(200).json({ message: "Appointment request is submitted" });
 };
 
 exports.getDgApp = (req, res) => {
