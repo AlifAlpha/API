@@ -4,14 +4,16 @@ const {
   getRoom,
   getOneRoom,
   roomById,
+  updateRoom,
+  deleteRoom,
 } = require("../controllers/rooms");
 
 const router = express.Router();
 router.post("/room", createRoom);
 router.get("/room", getRoom);
 router.get("/room/:roomId", getOneRoom);
-// router.put("/room/:roomId", updateLeaveType);
-// router.delete("/room/:roomId", deleteLeaveType);
+router.put("/room/:roomId", updateRoom);
+router.delete("/room/:roomId", deleteRoom);
 
 router.param("roomId", roomById);
 

@@ -54,24 +54,24 @@ exports.getOneRoom = (req, res) => {
   }
 };
 
-// exports.updateLeaveType = (req, res) => {
-//   let leavetype = req.leaveType;
-//   leavetype = _.extend(leavetype, req.body);
+exports.updateRoom = (req, res) => {
+  let room = req.room;
+  room = _.extend(room, req.body);
 
-//   leavetype.save((err, leavetype) => {
-//     if (err) {
-//       return res.status(403).json({ error: err });
-//     }
-//     res.status(200).json(leavetype.transform());
-//   });
-// };
+  room.save((err, room) => {
+    if (err) {
+      return res.status(403).json({ error: err });
+    }
+    res.status(200).json(room.transform());
+  });
+};
 
-// exports.deleteLeaveType = (req, res) => {
-//   let leavetype = req.leaveType;
-//   leavetype.remove((err) => {
-//     if (err) {
-//       return res.status(400).json({ error: err });
-//     }
-//     res.status(200).json({ message: "Leave type deleted successfully" });
-//   });
-// };
+exports.deleteRoom = (req, res) => {
+  let room = req.room;
+  room.remove((err) => {
+    if (err) {
+      return res.status(400).json({ error: err });
+    }
+    res.status(200).json({ message: "The room has been deleted" });
+  });
+};
