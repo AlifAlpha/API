@@ -15,26 +15,26 @@ exports.createDgApp = async (req, res) => {
 };
 
 exports.getDgApp = (req, res) => {
-  //   let range = req.query.range || "[0,9]";
-  //   let sort = req.query.sort || '["startMeet","DESC"]';
-  //   let count;
-  //   range = JSON.parse(range);
-  //   sort = JSON.parse(sort);
-  //   DgApp.countDocuments(function (err, c) {
-  //     count = c;
-  //     let map = new Map([sort]);
-  //     DgApp.find()
-  //       .sort(Object.fromEntries(map))
-  //       .then((data) => {
-  //         let formatData = [];
-  //         for (let i = 0; i < data.length; i++) {
-  //           formatData.push(data[i].transform());
-  //         }
-  //         res.set("content-Range", `dgApp ${range[0]}-${range[1] + 1}/${count}`);
-  //         res.status(200).json(formatData);
-  //       })
-  //       .catch((err) => console.log(err));
-  //   });
+  let range = req.query.range || "[0,9]";
+  let sort = req.query.sort || '["startMeet","DESC"]';
+  let count;
+  range = JSON.parse(range);
+  sort = JSON.parse(sort);
+  DgApp.countDocuments(function (err, c) {
+    count = c;
+    let map = new Map([sort]);
+    DgApp.find()
+      .sort(Object.fromEntries(map))
+      .then((data) => {
+        let formatData = [];
+        for (let i = 0; i < data.length; i++) {
+          formatData.push(data[i].transform());
+        }
+        res.set("content-Range", `dgApp ${range[0]}-${range[1] + 1}/${count}`);
+        res.status(200).json(formatData);
+      })
+      .catch((err) => console.log(err));
+  });
 };
 
 exports.getDgAppById = (req, res, next, id) => {
