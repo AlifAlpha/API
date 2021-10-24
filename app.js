@@ -47,6 +47,7 @@ const itreq = require("./routers/itreq");
 const itreqfrom = require("./routers/itreqform");
 const dgapp = require("./routers/dgApp");
 const city = require("./routers/cities");
+const room = require("./routers/rooms");
 
 app.use("/", leaveTypesRouter);
 app.use("/", users);
@@ -58,6 +59,7 @@ app.use("/", itreq);
 app.use("/", itreqfrom);
 app.use("/", dgapp);
 app.use("/", city);
+app.use("/", room);
 
 const port = process.env.PORT || 8080;
 
