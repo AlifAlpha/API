@@ -45,7 +45,7 @@ const leave = require("./routers/leaves");
 const department = require("./routers/department");
 const itreq = require("./routers/itreq");
 const itreqfrom = require("./routers/itreqform");
-// const dgapp = require("./routers/dgapp");
+const dgapp = require("./routers/dgApp");
 
 app.use("/", leaveTypesRouter);
 app.use("/", users);
