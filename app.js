@@ -55,7 +55,7 @@ app.use("/", leave);
 app.use("/", department);
 app.use("/", itreq);
 app.use("/", itreqfrom);
-// app.use("/", dgapp);
+app.use("/", dgapp);
 
 const port = process.env.PORT || 8080;
 
