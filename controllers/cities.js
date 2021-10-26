@@ -29,7 +29,7 @@ exports.cityById = (req, res, next, id) => {
 
 exports.getCities = (req, res) => {
   let range = req.query.range || "[0,9]";
-  let sort = req.query.sort || '["name" , "ASC"]';
+  let sort = req.query.sort || '["_id" , "ASC"]';
   let filter = req.query.filter || "{}";
   let count;
   range = JSON.parse(range);
@@ -65,16 +65,16 @@ exports.getCitiesAll = (req, res) => {
   let filter = req.query.filter || "{}";
   let count;
   range = JSON.parse(range);
-  sort = JSON.parse(sort);
+  // sort = JSON.parse(sort);
   filter = JSON.parse(filter);
   if (filter.name) {
     filter.name = { $regex: ".*" + filter.name + ".*" };
   }
   City.countDocuments(function (err, c) {
     count = c;
-    let map = new Map([sort]);
+    // let map = new Map([sort]);
     City.find()
-      .sort(Object.fromEntries(map))
+      // .sort(Object.fromEntries(map))
       // .skip(range[0])
       // .limit(range[1] + 1 - range[0])
       .then((data) => {
