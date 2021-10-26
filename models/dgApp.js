@@ -22,10 +22,7 @@ const DgAppSchema = new mongoose.Schema({
     required: true,
     type: Date,
   },
-  timeMeet: {
-    required: true,
-    type: String,
-  },
+
   name: { required: true, type: String, trim: true },
   title: { required: true, type: String, trim: true },
   dateDurStart: {
@@ -35,14 +32,7 @@ const DgAppSchema = new mongoose.Schema({
   dateDurEnd: {
     type: Date,
   },
-  timeDurStart: {
-    required: true,
-    type: String,
-  },
-  timeDurEnd: {
-    required: true,
-    type: String,
-  },
+
   purpose: { required: true, type: String, trim: true },
 });
 
