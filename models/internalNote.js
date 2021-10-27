@@ -41,7 +41,6 @@ const ineternlNote = new mongoose.Schema({
   },
   initiativeNeeds: {
     type: String,
-    default: "No Participation",
     required: true,
   },
   speechTopic: {

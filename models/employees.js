@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Department = require("./department");
+const { ObjectId } = mongoose.Schema;
 
 const employeesSchema = new mongoose.Schema({
   uid: {
