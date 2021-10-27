@@ -39,10 +39,7 @@ const ineternlNote = new mongoose.Schema({
     type: String,
     required: true,
   },
-  initiativeNeeds: {
-    type: String,
-    required: true,
-  },
+
   speechTopic: {
     type: String,
     required: true,
@@ -55,11 +52,6 @@ const ineternlNote = new mongoose.Schema({
     type: String,
     required: true,
   },
-  speechDate: {
-    type: Date,
-    required: true,
-  },
-
   speechDate: {
     type: Date,
     required: true,
@@ -96,6 +88,10 @@ const ineternlNote = new mongoose.Schema({
   internalSupportNeededSup: {
     type: String,
   },
+  internalSupportNeededSpo: {
+    type: String,
+  },
+
   DGDirections: {
     type: String,
   },
