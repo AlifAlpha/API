@@ -97,7 +97,7 @@ const ineternlNote = new mongoose.Schema({
   internalSupportNeededSup: {
     type: String,
   },
-  internalSupportNeededSpo: {
+  DGDirections: {
     type: String,
   },
 });

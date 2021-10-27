@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Department = require("./department");
 
 const employeesSchema = new mongoose.Schema({
   uid: {
@@ -12,6 +13,11 @@ const employeesSchema = new mongoose.Schema({
     type: String,
     trim: true,
     uppercase: true,
+  },
+  department: {
+    type: ObjectId,
+    ref: Department,
+    required: true,
   },
 
   phone: {
