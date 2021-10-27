@@ -2,16 +2,16 @@ const Intnote = require("../models/internalNote");
 const _ = require("lodash");
 
 exports.createIntnote = async (req, res) => {
-  const intnoteExists = await Intnote.findOne({
-    name: req.body.name,
-    start: req.body.start,
-    end: req.body.end,
-  });
-  if (intnoteExists) {
-    return res.status(403).json({
-      error: "Internal Note already exists",
-    });
-  }
+  // const intnoteExists = await Intnote.findOne({
+  //   name: req.body.name,
+  //   start: req.body.start,
+  //   end: req.body.end,
+  // });
+  // if (intnoteExists) {
+  //   return res.status(403).json({
+  //     error: "Internal Note already exists",
+  //   });
+  // }
   console.log(req.body);
   const intnote = await new Intnote(req.body);
   await intnote.save();
@@ -70,7 +70,10 @@ exports.getIntnote = (req, res) => {
         for (let i = 0; i < data.length; i++) {
           formatData.push(data[i].transform());
         }
-        res.set("Content-Range", `intnote ${range[0]}-${range[1] + 1}/${count}`);
+        res.set(
+          "Content-Range",
+          `intnote ${range[0]}-${range[1] + 1}/${count}`
+        );
         res.status(200).json(formatData);
       })
       .catch((err) => {
