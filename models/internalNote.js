@@ -13,6 +13,11 @@ const ineternlNote = new mongoose.Schema({
     type: String,
     required: true,
   },
+  dgParticipation: {
+    require: true,
+    type: String,
+    required: true,
+  },
   location: {
     require: true,
     type: String,
@@ -21,6 +26,16 @@ const ineternlNote = new mongoose.Schema({
   eventDate: {
     require: true,
     type: Date,
+    required: true,
+  },
+  initiativeIs: {
+    require: true,
+    type: String,
+    required: true,
+  },
+  ferequincy: {
+    require: true,
+    type: String,
     required: true,
   },
   stakeHoldersMember: {
@@ -41,7 +56,6 @@ const ineternlNote = new mongoose.Schema({
       required: true,
     },
   ],
-
   speechTopic: {
     type: String,
     required: true,
@@ -58,7 +72,6 @@ const ineternlNote = new mongoose.Schema({
     type: Date,
     required: true,
   },
-
   eventAttended: {
     type: String,
     required: true,
@@ -106,11 +119,9 @@ const ineternlNote = new mongoose.Schema({
 });
 ineternlNote.method("transform", function () {
   var obj = this.toObject();
-
   //Rename fields
   obj.id = obj._id;
   delete obj._id;
-
   return obj;
 });
 
