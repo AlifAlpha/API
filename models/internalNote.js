@@ -23,6 +23,16 @@ const ineternlNote = new mongoose.Schema({
     type: Date,
     required: true,
   },
+
+  initiativeIs: {
+    type: String,
+    trim: true,
+  },
+  frequency: {
+    type: String,
+    trim: true,
+  },
+
   stakeHoldersMember: {
     type: String,
     trim: true,
@@ -36,6 +46,10 @@ const ineternlNote = new mongoose.Schema({
     trim: true,
   },
   initiativeNeeds: {
+    type: String,
+    required: true,
+  },
+  dgParticipation: {
     type: String,
     required: true,
   },
