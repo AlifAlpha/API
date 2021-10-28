@@ -45,14 +45,12 @@ const ineternlNote = new mongoose.Schema({
     type: String,
     trim: true,
   },
-  initiativeNeeds: {
-    type: String,
-    required: true,
-  },
-  dgParticipation: {
-    type: String,
-    required: true,
-  },
+  initiativeNeeds: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
 
   speechTopic: {
     type: String,
@@ -75,10 +73,12 @@ const ineternlNote = new mongoose.Schema({
     type: String,
     required: true,
   },
-  eventPartnership: {
-    type: String,
-    required: true,
-  },
+  eventPartnership: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
   eventStateMember: {
     type: String,
     required: true,
@@ -87,18 +87,22 @@ const ineternlNote = new mongoose.Schema({
     type: String,
     required: true,
   },
-  coverageFor: {
-    type: String,
-    required: true,
-  },
+  coverageFor: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
   inpactInternal: {
     type: String,
     required: true,
   },
-  internalSupport: {
-    type: String,
-    required: true,
-  },
+  internalSupport: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
   internalSupportNeededSup: {
     type: String,
   },

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Department = require("./department");
 const Employee = require("./employees");
+const Room = require("./rooms");
 const Itreq = require("./itreq");
 const { ObjectId } = mongoose.Schema;
 const itreqformSchema = new mongoose.Schema({
@@ -33,9 +34,9 @@ const itreqformSchema = new mongoose.Schema({
     type: String,
   },
   location: {
+    type: ObjectId,
+    ref: Room,
     required: true,
-    type: String,
-    trim: true,
   },
   itreq: [
     {
