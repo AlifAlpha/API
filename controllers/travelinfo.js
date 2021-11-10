@@ -11,7 +11,7 @@ exports.createTravelinfo = async (req, res) => {
 
   const travelinfo = await new Travelinfo(req.body);
   await travelinfo.save();
-  res.status(200).json({ ...travelinfo.transform() });
+  res.status(200).json({ message: "request submitted" });
 };
 
 exports.getTravelinfo = (req, res) => {
