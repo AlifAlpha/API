@@ -49,8 +49,7 @@ const dgapp = require("./routers/dgApp");
 const city = require("./routers/cities");
 const room = require("./routers/rooms");
 const notedg = require("./routers/internalNote");
-
-
+const travelinfo = require("./routers/travelinfo");
 
 app.use("/", leaveTypesRouter);
 app.use("/", users);
@@ -64,6 +63,7 @@ app.use("/", dgapp);
 app.use("/", city);
 app.use("/", room);
 app.use("/", notedg);
+app.use("/", travelinfo);
 
 const port = process.env.PORT || 8080;
 
