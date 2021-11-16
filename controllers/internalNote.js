@@ -1,5 +1,107 @@
 const Intnote = require("../models/internalNote");
 const _ = require("lodash");
+const nodemailer = require("nodemailer");
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
+const config = require("./config/config");
+
+const OAuth2_client = new OAuth2(config.clientId, config.clientSecret);
+OAuth2_client.setCredentials({ refresh_token: config.refreshToken });
+
+function sendEmail(name, recipient) {
+  const accessToken = OAuth2_client.getAccessToken();
+
+  const transport = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      type: "OAuth2",
+      user: config.user,
+      clientId: config.clientId,
+      clientSecret: config.clientSecret,
+      refreshToken: config.refreshToken,
+      accessToken: accessToken,
+    },
+  });
+  const mailOption = {
+    from: `<${config.user}>`,
+    to: recipient,
+    subject: "DG internal Note",
+    html: getHtmlMessage(name),
+  };
+
+  transport.sendMail(mailOption, function (err, result) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("200", result);
+    }
+    transport.close();
+  });
+}
+
+function getHtmlMessage({
+  departmentName,
+  eventName,
+  location,
+  eventDate,
+  initiativeIs,
+  ferequincy,
+  stakeHoldersMember,
+  stakeHoldersNoMember,
+  stakeHolderspartner,
+  initiativeNeeds,
+  dgParticipation,
+  speechTopic,
+  speechPoints,
+  speechDuration,
+  speechDate,
+  eventAttended,
+  eventPartnership,
+  eventStateMember,
+  numCoverage,
+  coverageFor,
+  inpactInternal,
+  internalSupport,
+  internalSupportNeededSup,
+  internalSupportNeededSpo,
+}) {
+  return `
+  <div style="display : flex">
+
+  </div>
+  <p>
+    Dear team,<br />
+    Please find below the infos regarding  our internal note to his excellencys.
+  </p>
+  Department Name: ${"6177f22f3159e800179303f2"},
+  Event Name: <b>${eventName}</b><br/>
+  Location:<b> ${location}</b><br/>
+  Event Date:<b> ${eventDate}</b><br/>
+  InitiativeIs: <b>${initiativeIs}</b><br/>
+  Event Ferequency:<b> ${ferequincy}</b><br/>
+  Stake Holders Member:<b>${stakeHoldersMember}</b><br/>
+  Stake Holders No Member:<b> ${stakeHoldersNoMember}</b><br/>
+  stakeHolderspartner: <b>${stakeHolderspartner}</b><br/>
+  Initiative Needs: <b>${initiativeNeeds}</b><br/>
+  DG Participation: <b>${dgParticipation}</b><br/>
+  Speech Topic: <b>${speechTopic}</b><br/>
+  Speech Points: <b>${speechPoints}</b><br/>
+  Speech Duration: <b>${speechDuration}</b><br/>
+  Speech Date: <b>${speechDate}</b><br/>
+  Event Attended: <b>${eventAttended}</b><br/>
+  Event Partnership: <b>${eventPartnership}</b><br/>
+  Event State Member: <b>${eventStateMember}</b><br/>
+  Num Coverage: <b>${numCoverage}</b><br/>
+  Coverage For: <b>${coverageFor}</b><br/>
+  Inpact Internal: <b>${inpactInternal}</b><br/>
+  Internal Support: <b>${internalSupport}</b><br/>
+  External Support Needed (Supplier): <b>${internalSupportNeededSup}</b><br/>
+  External Support Needed (Sponsor): <b>${internalSupportNeededSpo}</b><br/>
+
+  Kind regards<br/>
+  ${eventName} Team,
+`;
+}
 
 exports.createIntnote = async (req, res) => {
   // const intnoteExists = await Intnote.findOne({
@@ -15,8 +117,10 @@ exports.createIntnote = async (req, res) => {
   console.log(req.body);
   const intnote = await new Intnote(req.body);
   await intnote.save();
-  res.status(200).json({ message: "Your internal note has been submitted" });
+  res.status(200).json({ message: "your request seccussfully submited" });
+  sendEmail(req.body, "chegdali.amine@gmail.com");
 };
+
 exports.getIntnote = (req, res) => {
   let range = req.query.range || "[0,9]";
   let sort = req.query.sort || '["RegisteredAt" , "DESC"]';
