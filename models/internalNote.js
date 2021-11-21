@@ -1,40 +1,31 @@
 const mongoose = require("mongoose");
-const Department = require("./department");
-const { ObjectId } = mongoose.Schema;
 
 const ineternlNote = new mongoose.Schema({
   departmentName: {
-    require: true,
-    type: ObjectId,
-    ref: Department,
+    type: String,
+    required: true,
   },
   eventName: {
-    require: true,
     type: String,
     required: true,
   },
   dgParticipation: {
-    require: true,
     type: String,
     required: true,
   },
   location: {
-    require: true,
     type: String,
     required: true,
   },
   eventDate: {
-    require: true,
     type: Date,
     required: true,
   },
   initiativeIs: {
-    require: true,
     type: String,
     required: true,
   },
   ferequincy: {
-    require: true,
     type: String,
     required: true,
   },
