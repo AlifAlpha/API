@@ -8,7 +8,7 @@ const config = require("./config/config");
 const OAuth2_client = new OAuth2(config.clientId, config.clientSecret);
 OAuth2_client.setCredentials({ refresh_token: config.refreshToken });
 
-function sendEmail(name, recipient) {
+function sendEmail(name, recipient, invitation, conceptnote, attendees) {
   const accessToken = OAuth2_client.getAccessToken();
 
   const transport = nodemailer.createTransport({
@@ -27,6 +27,33 @@ function sendEmail(name, recipient) {
     to: recipient,
     subject: "DG internal Note",
     html: getHtmlMessage(name),
+    attachments: [
+      {
+        filename: "icesco.png",
+        path: __dirname + "/assets/picto.png",
+        cid: "logo1", //my mistake was putting "cid:logo@cid" here!
+      },
+      {
+        filename: "icesco.png",
+        path: __dirname + "/assets/ecriture.png",
+        cid: "logo2", //my mistake was putting "cid:logo@cid" here!
+      },
+      {
+        filename: "Event Concept Note.pdf",
+        content: conceptnote.split(",")[1],
+        encoding: "base64",
+      },
+      {
+        filename: "Attendees / Participant.pdf",
+        content: attendees.split(",")[1],
+        encoding: "base64",
+      },
+      {
+        filename: "invitation.pdf",
+        content: invitation.split(",")[1],
+        encoding: "base64",
+      },
+    ],
   };
 
   transport.sendMail(mailOption, function (err, result) {
@@ -66,59 +93,65 @@ function getHtmlMessage({
   internalSupportNeededSpo,
 }) {
   return `
-  <div style="display : flex">
+  <div>
+    <div
+      style="
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        height: 80px;
+      "
+    >
+      <img src="cid:logo1" />
+      <img src="cid:logo2" />
+    </div>
+    <p>
+      Dear team,<br />
+      Please find below the infos regarding  our internal note to his excellency.
+    </p>
+    Department Name: <b>${departmentName}</b><br />
+    Event Name: <b>${eventName}</b><br/>
+    Location:<b> ${location}</b><br/>
+    Event Date:<b> ${eventDate}</b><br/>
+    InitiativeIs: <b>${initiativeIs}</b><br/>
+    Event Ferequency:<b> ${ferequincy}</b><br/>
+    Stake Holders Member:<b>${stakeHoldersMember}</b><br/>
+    Stake Holders No Member:<b> ${stakeHoldersNoMember}</b><br/>
+    stakeHolderspartner: <b>${stakeHolderspartner}</b><br/>
+    Initiative Needs: <b>${initiativeNeeds}</b><br/>
+    DG Participation: <b>${dgParticipation}</b><br/>
+    Speech Topic: <b>${speechTopic}</b><br/>
+    Speech Points: <b>${speechPoints}</b><br/>
+    Speech Duration: <b>${speechDuration}</b><br/>
+    Speech Date: <b>${speechDate}</b><br/>
+    Event Attended: <b>${eventAttended}</b><br/>
+    Event Partnership: <b>${eventPartnership}</b><br/>
+    Event State Member: <b>${eventStateMember}</b><br/>
+    Num Coverage: <b>${numCoverage}</b><br/>
+    Coverage For: <b>${coverageFor}</b><br/>
+    Inpact Internal: <b>${inpactInternal}</b><br/>
+    Internal Support: <b>${internalSupport}</b><br/>
+    External Support Needed (Supplier): <b>${internalSupportNeededSup}</b><br/>
+    External Support Needed (Sponsor): <b>${internalSupportNeededSpo}</b><br/>
 
+    Kind regards<br/>
+    ${eventName} Team,
   </div>
-  <p>
-    Dear team,<br />
-    Please find below the infos regarding  our internal note to his excellencys.
-  </p>
-  Department Name: ${"6177f22f3159e800179303f2"},
-  Event Name: <b>${eventName}</b><br/>
-  Location:<b> ${location}</b><br/>
-  Event Date:<b> ${eventDate}</b><br/>
-  InitiativeIs: <b>${initiativeIs}</b><br/>
-  Event Ferequency:<b> ${ferequincy}</b><br/>
-  Stake Holders Member:<b>${stakeHoldersMember}</b><br/>
-  Stake Holders No Member:<b> ${stakeHoldersNoMember}</b><br/>
-  stakeHolderspartner: <b>${stakeHolderspartner}</b><br/>
-  Initiative Needs: <b>${initiativeNeeds}</b><br/>
-  DG Participation: <b>${dgParticipation}</b><br/>
-  Speech Topic: <b>${speechTopic}</b><br/>
-  Speech Points: <b>${speechPoints}</b><br/>
-  Speech Duration: <b>${speechDuration}</b><br/>
-  Speech Date: <b>${speechDate}</b><br/>
-  Event Attended: <b>${eventAttended}</b><br/>
-  Event Partnership: <b>${eventPartnership}</b><br/>
-  Event State Member: <b>${eventStateMember}</b><br/>
-  Num Coverage: <b>${numCoverage}</b><br/>
-  Coverage For: <b>${coverageFor}</b><br/>
-  Inpact Internal: <b>${inpactInternal}</b><br/>
-  Internal Support: <b>${internalSupport}</b><br/>
-  External Support Needed (Supplier): <b>${internalSupportNeededSup}</b><br/>
-  External Support Needed (Sponsor): <b>${internalSupportNeededSpo}</b><br/>
-
-  Kind regards<br/>
-  ${eventName} Team,
 `;
 }
-
-exports.createIntnote = async (req, res) => {
-  // const intnoteExists = await Intnote.findOne({
-  //   name: req.body.name,
-  //   start: req.body.start,
-  //   end: req.body.end,
-  // });
-  // if (intnoteExists) {
-  //   return res.status(403).json({
-  //     error: "Internal Note already exists",
-  //   });
-  // }
+exports.createIntnote = (req, res) => {
   console.log(req.body);
-  const intnote = await new Intnote(req.body);
-  await intnote.save();
+  let path = "";
+  const intnote = new Intnote(req.body);
+  intnote.save();
   res.status(200).json({ message: "your request seccussfully submited" });
-  sendEmail(req.body, "chegdali.amine@gmail.com");
+  sendEmail(
+    req.body,
+    "chegdali.amine@gmail.com, sohaibbakcha@gmail.com",
+    req.body.invitation.base64,
+    req.body.eventconcept.base64,
+    req.body.attendees.base64
+  );
 };
 
 exports.getIntnote = (req, res) => {
@@ -185,6 +218,7 @@ exports.getIntnote = (req, res) => {
       });
   });
 };
+
 exports.getIntnoteById = (req, res, next, id) => {
   Intnote.findById(id).exec((err, data) => {
     if (err) {
@@ -195,6 +229,7 @@ exports.getIntnoteById = (req, res, next, id) => {
     next();
   });
 };
+
 exports.getOneIntnote = (req, res) => {
   intnote = req.intnote;
   if (intnote) {
@@ -206,6 +241,7 @@ exports.getOneIntnote = (req, res) => {
       message: "Note not found",
     });
 };
+
 exports.updateIntnote = (req, res) => {
   let intnote = req.intnote;
   intnote = _.extend(intnote, req.body);
@@ -216,6 +252,7 @@ exports.updateIntnote = (req, res) => {
     return res.status(200).json(intnote.transform());
   });
 };
+
 exports.deleteIntnote = (req, res) => {
   let intnote = req.intnote;
 

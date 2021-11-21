@@ -40,6 +40,7 @@ exports.getDepartment = (req, res) => {
       .catch((err) => console.log(err));
   });
 };
+
 exports.getDepartmentById = (req, res, next, id) => {
   Department.findById(id).exec((err, data) => {
     if (err)
@@ -49,6 +50,7 @@ exports.getDepartmentById = (req, res, next, id) => {
     next();
   });
 };
+
 exports.getOneDepartment = (req, res) => {
   let department = req.department;
   if (department) {
