@@ -9,11 +9,14 @@ const employeesSchema = new mongoose.Schema({
     trim: true,
     uppercase: true,
   },
+  title: {
+    required: true,
+    type: String,
+  },
   name: {
     required: true,
     type: String,
     trim: true,
-    uppercase: true,
   },
   department: {
     type: ObjectId,
