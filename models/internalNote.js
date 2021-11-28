@@ -87,10 +87,12 @@ const ineternlNote = new mongoose.Schema({
       required: true,
     },
   ],
-  inpactInternal: {
-    type: String,
-    required: true,
-  },
+  inpactInternal: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
   internalSupport: [
     {
       type: String,

@@ -141,13 +141,13 @@ function getHtmlMessage({
 }
 exports.createIntnote = (req, res) => {
   console.log(req.body);
-  let path = "";
+  // , cabdg@icesco.org"
   const intnote = new Intnote(req.body);
   intnote.save();
   res.status(200).json({ message: "your request seccussfully submited" });
   sendEmail(
     req.body,
-    "chegdali.amine@gmail.com, sohaibbakcha@gmail.com",
+    "chegdali.amine@gmail.com",
     req.body.invitation.base64,
     req.body.eventconcept.base64,
     req.body.attendees.base64
@@ -175,6 +175,7 @@ exports.getIntnote = (req, res) => {
       $lte: new Date(nextDate),
     };
   }
+  //comment
   if (filter.start) {
     let dateStr = new Date(filter.start);
     let nextDate = new Date(filter.start);

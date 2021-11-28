@@ -1,8 +1,8 @@
 module.exports = {
-  user: "iac.rabat@gmail.com",
+  user: "icesco.it@gmail.com",
   clientId:
-    "331999010864-duukl0ttcrj52375dffmmcb2ul6ssi3r.apps.googleusercontent.com",
-  clientSecret: "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",
+    "1006101348022-rto06it2mr0dt097028fttg8b7kne7sm.apps.googleusercontent.com",
+  clientSecret: "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",
   refreshToken:
-    "1//04irw8NfQQrmFCgYIARAAGAQSNwF-L9IrNFARLGlq4za7uln00jEOxDoRP-OKLx4x85J5apoloI15cCI5cJNoVhkr9qh2KS5NkCo",
+    "1//04QC-x0ci-JTkCgYIARAAGAQSNgF-L9IrsMum1qhVGDZ2znh6xIEayTnzTXR776YsOr0X8ARb0NTKUuDKKYqNC3uNOajWzJsC7Q",
 };
