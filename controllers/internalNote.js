@@ -141,13 +141,13 @@ function getHtmlMessage({
 }
 exports.createIntnote = (req, res) => {
   console.log(req.body);
-  // , cabdg@icesco.org"
+  //
   const intnote = new Intnote(req.body);
   intnote.save();
   res.status(200).json({ message: "your request seccussfully submited" });
   sendEmail(
     req.body,
-    "chegdali.amine@gmail.com",
+    "chegdali.amine@gmail.com, cabdg@icesco.org",
     req.body.invitation.base64,
     req.body.eventconcept.base64,
     req.body.attendees.base64
