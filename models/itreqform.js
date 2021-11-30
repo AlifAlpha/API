@@ -34,9 +34,7 @@ const itreqformSchema = new mongoose.Schema({
     type: String,
   },
   location: {
-    type: ObjectId,
-    ref: Room,
-    required: true,
+    type: String,
   },
   itreq: [
     {
