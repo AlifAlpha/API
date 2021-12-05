@@ -150,7 +150,7 @@ exports.createIntnote = (req, res) => {
   res.status(200).json({ message: "your request seccussfully submited" });
   sendEmail(
     req.body,
-    "chegdali.amine@gmail.com, ", //cabdg@icesco.org",
+    "chegdali.amine@gmail.com, cabdg@icesco.org",
     req.body.invitation.base64,
     req.body.eventconcept.base64,
     req.body.attendees.base64
