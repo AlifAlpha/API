@@ -91,6 +91,7 @@ function getHtmlMessage({
   internalSupport,
   internalSupportNeededSup,
   internalSupportNeededSpo,
+  referencing,
 }) {
   return `
   <div>
@@ -109,6 +110,7 @@ function getHtmlMessage({
       Dear team,<br />
       Please find below the infos regarding  our internal note to his excellency.
     </p>
+    Referencing : <b>${referencing}</b><br />
     Department Name: <b>${departmentName}</b><br />
     Event Name: <b>${eventName}</b><br/>
     Location:<b> ${location}</b><br/>
@@ -139,6 +141,7 @@ function getHtmlMessage({
   </div>
 `;
 }
+
 exports.createIntnote = (req, res) => {
   console.log(req.body);
   //
@@ -147,7 +150,7 @@ exports.createIntnote = (req, res) => {
   res.status(200).json({ message: "your request seccussfully submited" });
   sendEmail(
     req.body,
-    "chegdali.amine@gmail.com, cabdg@icesco.org",
+    "chegdali.amine@gmail.com, ", //cabdg@icesco.org",
     req.body.invitation.base64,
     req.body.eventconcept.base64,
     req.body.attendees.base64

@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 
-const ineternlNote = new mongoose.Schema({
+const internalNote = new mongoose.Schema({
+  referencing: {
+    type: String,
+  },
   departmentName: {
     type: String,
     required: true,
@@ -110,7 +113,44 @@ const ineternlNote = new mongoose.Schema({
     type: String,
   },
 });
-ineternlNote.method("transform", function () {
+
+internalNote.pre("save", function (next) {
+  if (this.isNew) {
+    let refName = "";
+    if (this.location.includes("Room")) {
+      refName = "IN";
+    } else {
+      refName = "EX";
+    }
+    const func = (x, y) => {
+      let num;
+      if (x < 10) {
+        num = "00" + x.toString(10);
+      } else if (x < 100) {
+        num = "0" + x.toString(10);
+      } else {
+        num = x.toString(10);
+      }
+      this.referencing = `${y}/${this.departmentName.substring(
+        0,
+        3
+      )}/${new Date()
+        .getFullYear()
+        .toString()
+        .substr(-2)}${new Date().getMonth()}/${num}`;
+      // console.log("In Pre save", this);
+      next();
+    };
+    mongoose.model("InternalNote").countDocuments({}, async (err, count) => {
+      let x = await count;
+      func(x + 1, refName);
+    });
+  } else {
+    next();
+  }
+});
+
+internalNote.method("transform", function () {
   var obj = this.toObject();
   //Rename fields
   obj.id = obj._id;
@@ -118,4 +158,4 @@ ineternlNote.method("transform", function () {
   return obj;
 });
 
-module.exports = mongoose.model("IneternlNote", ineternlNote);
+module.exports = mongoose.model("InternalNote", internalNote);
