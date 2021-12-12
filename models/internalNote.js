@@ -52,19 +52,19 @@ const internalNote = new mongoose.Schema({
   ],
   speechTopic: {
     type: String,
-    required: true,
+    // required: true,
   },
   speechPoints: {
     type: String,
-    required: true,
+    // required: true,
   },
   speechDuration: {
     type: String,
-    required: true,
+    // required: true,
   },
   speechDate: {
     type: Date,
-    required: true,
+    // required: true,
   },
   eventAttended: {
     type: String,

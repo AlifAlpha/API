@@ -114,7 +114,7 @@ function getHtmlMessage({
       Dear team,<br />
       Please find below the infos regarding  our internal note to his excellency.
     </p>
-    Referencing : <b>${referencing}</b><br />
+   
     Department Name: <b>${departmentName}</b><br />
     Event Name: <b>${eventName}</b><br/>
     Location:<b> ${location}</b><br/>
