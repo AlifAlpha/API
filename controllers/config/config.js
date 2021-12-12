@@ -4,5 +4,5 @@ module.exports = {
     "1006101348022-rto06it2mr0dt097028fttg8b7kne7sm.apps.googleusercontent.com",
   clientSecret: "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",
   refreshToken:
-    "1//04QC-x0ci-JTkCgYIARAAGAQSNgF-L9IrsMum1qhVGDZ2znh6xIEayTnzTXR776YsOr0X8ARb0NTKUuDKKYqNC3uNOajWzJsC7Q",
+    "1//04Aus2gyCwKQ2CgYIARAAGAQSNgF-L9IribUMBVlHA5f7_ZWefpx3t9Mw2own_6oR5nJF0adch3-a_pA8nsAtUn94xvjTCtDK7g",
 };

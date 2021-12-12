@@ -6,7 +6,10 @@ const OAuth2 = google.auth.OAuth2;
 const config = require("./config/config");
 
 const OAuth2_client = new OAuth2(config.clientId, config.clientSecret);
-OAuth2_client.setCredentials({ refresh_token: config.refreshToken });
+OAuth2_client.setCredentials({
+  refresh_token: config.refreshToken,
+  forceRefreshOnFailure: true,
+});
 
 function sendEmail(name, recipient, invitation, conceptnote, attendees) {
   const accessToken = OAuth2_client.getAccessToken();
@@ -20,6 +23,7 @@ function sendEmail(name, recipient, invitation, conceptnote, attendees) {
       clientSecret: config.clientSecret,
       refreshToken: config.refreshToken,
       accessToken: accessToken,
+      expires: 1484314697598,
     },
   });
   const mailOption = {

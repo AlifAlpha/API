@@ -117,10 +117,19 @@ const internalNote = new mongoose.Schema({
 internalNote.pre("save", function (next) {
   if (this.isNew) {
     let refName = "";
+    let deptName = "";
     if (this.location.includes("Room")) {
-      refName = "IN";
+      deptName = this.departmentName.substring(0, 3);
+      refName = `IN/${deptName}`;
     } else {
-      refName = "EX";
+      if (this.stakeHoldersMember)
+        deptName = this.stakeHoldersMember.substring(0, 3);
+      else if (this.stakeHoldersNoMember)
+        deptName = this.stakeHoldersNoMember.substring(0, 3);
+      else if (this.stakeHolderspartner)
+        deptName = this.stakeHolderspartner.substring(0, 3);
+
+      refName = `EX/${deptName}`;
     }
     const func = (x, y) => {
       let num;
@@ -131,13 +140,12 @@ internalNote.pre("save", function (next) {
       } else {
         num = x.toString(10);
       }
-      this.referencing = `${y}/${this.departmentName.substring(
-        0,
-        3
-      )}/${new Date()
+      let generetedName = `${y}/${new Date()
         .getFullYear()
         .toString()
-        .substr(-2)}${new Date().getMonth()}/${num}`;
+        .substr(-2)}-${new Date().getMonth()}/${num}`;
+      this.referencing = generetedName;
+      exports.ref = generetedName;
       // console.log("In Pre save", this);
       next();
     };
