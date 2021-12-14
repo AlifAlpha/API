@@ -5,10 +5,7 @@ const ParticipationSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
-  namearabic: {
-    type: String,
-    trim: true,
-  },
+
   datepLace: {
     type: String,
     trim: true,
@@ -18,6 +15,10 @@ const ParticipationSchema = new mongoose.Schema({
     trim: true,
   },
   occupation: {
+    type: String,
+    trim: true,
+  },
+  country: {
     type: String,
     trim: true,
   },
