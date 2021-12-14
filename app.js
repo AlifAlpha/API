@@ -51,6 +51,7 @@ const city = require("./routers/cities");
 const room = require("./routers/rooms");
 const notedg = require("./routers/internalNote");
 const travelinfo = require("./routers/travelinfo");
+const participation = require("./routers/participation");
 
 app.use("/", leaveTypesRouter);
 app.use("/", users);
@@ -65,9 +66,10 @@ app.use("/", city);
 app.use("/", room);
 app.use("/", notedg);
 app.use("/", travelinfo);
+app.use("/", participation);
 
 const port = process.env.PORT || 8080;
 
 app.listen(port, () => {
-  console.log(`node api listening to port : ${port}`);
+  console.log(`Node API listening to port : ${port}`);
 });
