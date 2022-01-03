@@ -119,15 +119,12 @@ internalNote.pre("save", function (next) {
     let refName = "";
     let deptName = "";
     if (this.location.includes("Room")) {
-      deptName = this.departmentName.substring(0, 3);
+      deptName = this.departmentName.split("-")[1];
       refName = `IN/${deptName}`;
     } else {
-      if (this.stakeHoldersMember)
-        deptName = this.stakeHoldersMember.substring(0, 3);
-      else if (this.stakeHoldersNoMember)
-        deptName = this.stakeHoldersNoMember.substring(0, 3);
-      else if (this.stakeHolderspartner)
-        deptName = this.stakeHolderspartner.substring(0, 3);
+      if (this.stakeHoldersMember) deptName = "MS";
+      else if (this.stakeHoldersNoMember) deptName = "NMS";
+      else if (this.stakeHolderspartner) deptName = "PR";
 
       refName = `EX/${deptName}`;
     }
