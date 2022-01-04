@@ -1,8 +1,8 @@
 module.exports = {
   user: "icesco.it@gmail.com",
   clientId:
-    "1006101348022-rto06it2mr0dt097028fttg8b7kne7sm.apps.googleusercontent.com",
-  clientSecret: "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",
+    "427783993539-p565j0f57num5sooe8aonucbtchid8hn.apps.googleusercontent.com",
+  clientSecret: "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",
   refreshToken:
-    "1//04E8n2cb1YCcACgYIARAAGAQSNgF-L9IrLeJCVNfKTjXZ1-LdQ3Vt8Hp4WyK9NJ8KJex6vcarZc7slbb8yYaGGxyEyhRLol27kQ",
+    "1//04Erbep6OjJhBCgYIARAAGAQSNgF-L9IrYCmoAvqP679ZrXa0HAtjNF1GlpPxnvYx0XBbAQwjr-BY23Zh_aX6g1XhxBL02djF3A",
 };
