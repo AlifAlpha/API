@@ -29,7 +29,7 @@ function sendEmail(name, recipient, invitation, conceptnote, attendees) {
   const mailOption = {
     from: `<${config.user}>`,
     to: recipient,
-    subject: "DG internal Note",
+    subject: "DG Appointment Request",
     html: getHtmlMessage(name),
     attachments: [
       {
