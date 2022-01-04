@@ -106,11 +106,11 @@ exports.createDgApp = async (req, res) => {
   await dgApp.save();
   console.log(req.body);
   res.status(200).json({ message: "Appointment request is submitted" });
-  // sendEmail(
-  //   req.body,
-  //   "chegdali.amine@gmail.com ", //, cabdg@icesco.org",
-  //   req.body.attechedcv.base64
-  // );
+  sendEmail(
+    req.body,
+    "chegdali.amine@gmail.com ", //, cabdg@icesco.org",
+    req.body.attechedcv.base64
+  );
 };
 
 exports.getDgApp = (req, res) => {
