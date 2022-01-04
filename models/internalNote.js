@@ -140,7 +140,7 @@ internalNote.pre("save", function (next) {
       let generetedName = `${y}/${new Date()
         .getFullYear()
         .toString()
-        .substr(-2)}-${new Date().getMonth()}/${num}`;
+        .substr(-2)}-${new Date().getMonth() + 1}/${num}`;
       this.referencing = generetedName;
       exports.ref = generetedName;
       // console.log("In Pre save", this);
