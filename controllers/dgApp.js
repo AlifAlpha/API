@@ -1,17 +1,116 @@
 const DgApp = require("../models/dgApp");
 const _ = require("lodash");
+const nodemailer = require("nodemailer");
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
+const config = require("./config/config");
 
+const OAuth2_client = new OAuth2(config.clientId, config.clientSecret);
+OAuth2_client.setCredentials({
+  refresh_token: config.refreshToken,
+  forceRefreshOnFailure: true,
+});
+
+function sendEmail(name, recipient, conceptnote) {
+  const accessToken = OAuth2_client.getAccessToken();
+
+  const transport = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      type: "OAuth2",
+      user: config.user,
+      clientId: config.clientId,
+      clientSecret: config.clientSecret,
+      refreshToken: config.refreshToken,
+      accessToken: accessToken,
+      expires: 1484314697598,
+    },
+  });
+  const mailOption = {
+    from: `<${config.user}>`,
+    to: recipient,
+    subject: "DG internal Note",
+    html: getHtmlMessage(name),
+    attachments: [
+      {
+        filename: "icesco.png",
+        path: __dirname + "/assets/picto.png",
+        cid: "logo1", //my mistake was putting "cid:logo@cid" here!
+      },
+      {
+        filename: "icesco.png",
+        path: __dirname + "/assets/ecriture.png",
+        cid: "logo2", //my mistake was putting "cid:logo@cid" here!
+      },
+      {
+        filename: "CV_DG_Appointments.pdf",
+        content: conceptnote.split(",")[1],
+        encoding: "base64",
+      },
+    ],
+  };
+
+  transport.sendMail(mailOption, function (err, result) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("200", result);
+    }
+    transport.close();
+  });
+}
+
+function getHtmlMessage({
+  startMeet,
+  name,
+  title,
+  dateDurStart,
+  dateDurEnd,
+  purpose,
+  appType,
+}) {
+  return `
+  <div>
+    <div
+      style="
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        height: 80px;
+      "
+    >
+      <img src="cid:logo1" />
+      <img src="cid:logo2" />
+    </div>
+    <p>
+      Dear team,<br />
+      Please find below the infos regarding  our internal note to his excellency.
+    </p>
+   
+    start meeting: <b>${startMeet}</b><br />
+    Name: <b>${name}</b><br/>
+    Title:<b> ${title}</b><br/>
+    Purpose date:<b> ${purpose}</b><br/>
+    <h6>Duration</h6>
+    <b>From : </b> ${dateDurStart}<br/>
+    <b>To :</b> ${dateDurEnd}<br/>
+    App type:<b> ${appType}</b><br/>
+   
+    Kind regards
+  </div>
+`;
+}
 exports.createDgApp = async (req, res) => {
-  //   const dgAppExists = await DgApp.findOne({ name: req.body.name });
-  //   if (dgAppExists) {
-  //     return res.status(403).json({
-  //       error: "Appointment already exists",
-  //     });
-  //   }
   console.log(req.body);
   const dgApp = await new DgApp(req.body);
   await dgApp.save();
+  console.log(req.body);
   res.status(200).json({ message: "Appointment request is submitted" });
+  sendEmail(
+    req.body,
+    "chegdali.amine@gmail.com ", //, cabdg@icesco.org",
+    req.body.attechedcv.base64
+  );
 };
 
 exports.getDgApp = (req, res) => {
