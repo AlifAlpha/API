@@ -29,7 +29,7 @@ function sendEmail(name, recipient, conceptnote) {
   const mailOption = {
     from: `<${config.user}>`,
     to: recipient,
-    subject: "DG internal Note",
+    subject: "DG Appointment Request",
     html: getHtmlMessage(name),
     attachments: [
       {
@@ -108,7 +108,7 @@ exports.createDgApp = async (req, res) => {
   res.status(200).json({ message: "Appointment request is submitted" });
   sendEmail(
     req.body,
-    "chegdali.amine@gmail.com ", //, cabdg@icesco.org",
+    "chegdali.amine@gmail.com , cabdg@icesco.org",
     req.body.attechedcv.base64
   );
 };

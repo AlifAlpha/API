@@ -1,6 +1,90 @@
 const Itreqform = require("../models/itreqform");
 const _ = require("lodash");
-const itreq = require("../models/itreq");
+const nodemailer = require("nodemailer");
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
+const config = require("./config/config");
+
+const OAuth2_client = new OAuth2(config.clientId, config.clientSecret);
+OAuth2_client.setCredentials({
+  refresh_token: config.refreshToken,
+  forceRefreshOnFailure: true,
+});
+
+function sendEmail(name, recipients) {
+  const accessToken = OAuth2_client.getAccessToken();
+
+  const transport = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      type: "OAuth2",
+      user: config.user,
+      clientId: config.clientId,
+      clientSecret: config.clientSecret,
+      refreshToken: config.refreshToken,
+      accessToken: accessToken,
+      expires: 1484314697598,
+    },
+  });
+  const mailOption = {
+    from: `<${config.user}>`,
+    to: recipient,
+    subject: "IT Request Form",
+    html: getHtmlMessage(name),
+    attachments: [
+      {
+        filename: "icesco.png",
+        path: __dirname + "/assets/picto.png",
+        cid: "logo1", //my mistake was putting "cid:logo@cid" here!
+      },
+      {
+        filename: "icesco.png",
+        path: __dirname + "/assets/ecriture.png",
+        cid: "logo2", //my mistake was putting "cid:logo@cid" here!
+      },
+    ],
+  };
+
+  transport.sendMail(mailOption, function (err, result) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("200", result);
+    }
+    transport.close();
+  });
+}
+
+function getHtmlMessage({ eventName, phone, start, time, location }) {
+  return `
+  <div>
+    <div
+      style="
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        height: 80px;
+      "
+    >
+      <img src="cid:logo1" />
+      <img src="cid:logo2" />
+    </div>
+    <p>
+      Dear team,<br />
+      Please find below the infos regarding  our internal note to his excellency.
+    </p>
+   
+    Event name : <b>${eventName}</b><br />
+    Phone: <b>${phone}</b><br/>
+    Start:<b> ${start}</b><br/>
+    Time:<b> ${time}</b><br/>
+    Location:<b> ${location}</b><br/>
+    
+   
+    Kind regards
+  </div>
+`;
+}
 
 exports.createItreqform = async (req, res) => {
   //   const leaveExists = await Leaves.findOne({
@@ -16,11 +100,16 @@ exports.createItreqform = async (req, res) => {
   console.log(req.body);
   const itreqform = await new Itreqform(req.body);
   await itreqform.save();
+  sendEmail(
+    req.body,
+    "chegdali.amine@gmail.com , cabdg@icesco.org",
+    req.body.attechedcv.base64
+  );
   res.status(200).json({ message: "IT request form is submitted" });
 };
 exports.getItreqform = (req, res) => {
   let range = req.query.range || "[0,9]";
-  let sort = req.query.sort || '["start" , "DESC"]';
+  let sort = req.query.sort || '["id" , "ASC"]';
   let filter = req.query.filter || "{}";
   let count;
   range = JSON.parse(range);
