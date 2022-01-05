@@ -28,7 +28,7 @@ function sendEmail(name, recipients) {
   });
   const mailOption = {
     from: `<${config.user}>`,
-    to: recipient,
+    to: recipients,
     subject: "IT Request Form",
     html: getHtmlMessage(name),
     attachments: [
