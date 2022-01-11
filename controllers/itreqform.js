@@ -24,7 +24,7 @@ function sendEmail(name, recipients) {
       refreshToken: config.refreshToken,
       accessToken: accessToken,
       expires: 1484314697598,
-    },W
+    },
   });
   const mailOption = {
     from: `<${config.user}>`,
