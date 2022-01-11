@@ -84,7 +84,7 @@ function getHtmlMessage({
     </div>
     <p>
       Dear team,<br />
-      Please find below the infos regarding  our internal note to his excellency.
+      Please find below the infos regarding  our Appointment request to his excellency.
     </p>
    
     start meeting: <b>${startMeet}</b><br />

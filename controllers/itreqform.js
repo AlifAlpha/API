@@ -78,7 +78,8 @@ function getHtmlMessage({
     </div>
     <p>
       Dear team,<br />
-      Please find below the infos regarding  our internal note to his excellency.
+      Please find below the infos regarding  our IT request .
+      
     </p>
    
     Event name : <b>${eventName}</b><br />
