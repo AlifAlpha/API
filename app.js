@@ -11,7 +11,7 @@ app.use(
   cors({
     origin: "*",
     methods: ["GET", "PUT", "POST", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization", "Range"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     exposedHeaders: ["Content-Range", "X-Content-Range"],
     credentials: true,
   })
