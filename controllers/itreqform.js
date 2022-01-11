@@ -55,7 +55,14 @@ function sendEmail(name, recipients) {
   });
 }
 
-function getHtmlMessage({ eventName, phone, start, time, location }) {
+function getHtmlMessage({
+  eventName,
+  eventCoordinator,
+  phone,
+  start,
+  time,
+  location,
+}) {
   return `
   <div>
     <div
@@ -75,6 +82,7 @@ function getHtmlMessage({ eventName, phone, start, time, location }) {
     </p>
    
     Event name : <b>${eventName}</b><br />
+    Coordinator : <b>${eventCoordinator}</b><br />
     Phone: <b>${phone}</b><br/>
     Start:<b> ${start}</b><br/>
     Time:<b> ${time}</b><br/>
