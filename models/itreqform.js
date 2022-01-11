@@ -11,9 +11,9 @@ const itreqformSchema = new mongoose.Schema({
     trim: true,
   },
   eventCoordinator: {
-    type: ObjectId,
-    ref: Employee,
     required: true,
+    type: String,
+    trim: true,
   },
   phone: {
     required: true,

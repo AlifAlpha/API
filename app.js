@@ -9,7 +9,7 @@ const cors = require("cors");
 
 app.use(
   cors({
-    origin: "https://icesco.netlify.app",
+    origin: "*",
     methods: ["GET", "PUT", "POST", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization", "Range"],
     exposedHeaders: ["Content-Range", "X-Content-Range"],
