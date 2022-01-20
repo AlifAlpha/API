@@ -14,7 +14,6 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
     exposedHeaders: ["Content-Range", "X-Content-Range"],
     credentials: true,
-    preflightContinue: false,
   })
 );
 
