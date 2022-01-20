@@ -14,10 +14,12 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
     exposedHeaders: ["Content-Range", "X-Content-Range"],
     credentials: true,
+    preflightContinue: false,
   })
 );
 
 dotenv.config();
+s;
 
 mongoose
   .connect(process.env.MONGO_URI, {
