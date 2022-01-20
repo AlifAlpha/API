@@ -7,16 +7,17 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 
+//db config
 app.use(
   cors({
     origin: "*",
-    methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    methods: ["GET", "PUT", "POST", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization", "Range"],
     exposedHeaders: ["Content-Range", "X-Content-Range"],
     credentials: true,
   })
 );
-
+// app.use(cors());
 dotenv.config();
 
 mongoose
