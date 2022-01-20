@@ -18,7 +18,6 @@ app.use(
 );
 
 dotenv.config();
-s;
 
 mongoose
   .connect(process.env.MONGO_URI, {
