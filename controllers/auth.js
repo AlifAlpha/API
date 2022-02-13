@@ -33,8 +33,8 @@ exports.signin = (req, res) => {
     //persist the token as 't' in cookie with expiry date
     res.cookie("t", token, { expire: new Date() + 1300 });
     // return respons with user and token to frontend cleint
-    const { _id, email, name ,role } = user;
-    res.json({ token,role, user: { _id, email, name } });
+    const { _id, email, name, role } = user;
+    res.json({ token, role, user: { _id, email, name } });
   });
 };
 
