@@ -62,6 +62,8 @@ function getHtmlMessage({
   start,
   time,
   location,
+  duration,
+  company,
 }) {
   return `
   <div>
@@ -88,8 +90,10 @@ function getHtmlMessage({
     Start:<b> ${start}</b><br/>
     Time:<b> ${time}</b><br/>
     Location:<b> ${location}</b><br/>
-    
-   
+    Duration :<b> ${duration}</b><br/>
+    Company :<b> ${company}</b><br/>
+    <br/>
+    <br/>
     Kind regards
   </div>
 `;
