@@ -50,6 +50,23 @@ const itreqformSchema = new mongoose.Schema({
     required: true,
     type: String,
   },
+  createdAt: {
+    type: Date,
+  },
+});
+
+itreqformSchema.pre("save", function (next) {
+  // get the current date
+  var currentDate = new Date();
+
+  // if created_at doesn't exist, add to that field
+  if (!this.createdAt) {
+    console.log();
+    // console.log("In Pre save");
+    this.createdAt = currentDate;
+  }
+
+  next();
 });
 
 itreqformSchema.method("transform", function () {

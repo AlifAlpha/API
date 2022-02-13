@@ -118,7 +118,7 @@ exports.createItreqform = async (req, res) => {
 };
 exports.getItreqform = (req, res) => {
   let range = req.query.range || "[0,9]";
-  let sort = req.query.sort || '["id" , "ASC"]';
+  let sort = req.query.sort || '["createdAt" , "DESC"]';
   let filter = req.query.filter || "{}";
   let count;
   range = JSON.parse(range);
