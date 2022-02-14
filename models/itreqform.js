@@ -47,7 +47,6 @@ const itreqformSchema = new mongoose.Schema({
     },
   ],
   company: {
-    required: true,
     type: String,
   },
   createdAt: {
