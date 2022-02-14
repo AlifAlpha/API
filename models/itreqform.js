@@ -62,7 +62,7 @@ itreqformSchema.pre("save", function (next) {
   // if created_at doesn't exist, add to that field
   if (!this.createdAt) {
     console.log();
-    // console.log("In Pre save");
+    console.log("In Pre save");
     this.createdAt = currentDate;
   }
 
