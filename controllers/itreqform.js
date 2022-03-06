@@ -64,6 +64,7 @@ function getHtmlMessage({
   location,
   duration,
   company,
+  info,
 }) {
   return `
   <div>
@@ -92,6 +93,7 @@ function getHtmlMessage({
     Location:<b> ${location}</b><br/>
     Duration :<b> ${duration}</b><br/>
     Company :<b> ${company}</b><br/>
+    More Info :<b> ${info}</b><br/>
     <br/>
     <br/>
     Kind regards
