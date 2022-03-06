@@ -52,6 +52,10 @@ const itreqformSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
   },
+  info: {
+    type: String,
+  },
+
 });
 
 itreqformSchema.pre("save", function (next) {
