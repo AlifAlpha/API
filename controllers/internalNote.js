@@ -4,8 +4,10 @@ const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 const config = require("./config/config");
-
+const PDFDocument = require("pdfkit");
+const fs = require("fs");
 const OAuth2_client = new OAuth2(config.clientId, config.clientSecret);
+
 OAuth2_client.setCredentials({
   refresh_token: config.refreshToken,
   forceRefreshOnFailure: true,
@@ -56,6 +58,11 @@ function sendEmail(name, recipient, invitation, conceptnote, attendees) {
         filename: "invitation.pdf",
         content: invitation.split(",")[1],
         encoding: "base64",
+      },
+      {
+        filename: "internalNote.pdf",
+        path: __dirname + "/pdf/output.pdf",
+        contentType: "application/pdf",
       },
     ],
   };
@@ -149,12 +156,174 @@ function getHtmlMessage({
 exports.createIntnote = (req, res) => {
   console.log(req.body);
   //
+
   const intnote = new Intnote(req.body);
   intnote.save();
+  let {
+    departmentName,
+    eventName,
+    location,
+    eventDate,
+    initiativeIs,
+    ferequincy,
+    stakeHoldersMember,
+    stakeHoldersNoMember,
+    initiativeNeeds,
+    dgParticipation,
+    speechTopic,
+    speechPoints,
+    speechDuration,
+    speechDate,
+    eventAttended,
+    eventPartnership,
+    eventStateMember,
+    numCoverage,
+    coverageFor,
+    inpactInternal,
+    internalSupport,
+    internalSupportNeededSup,
+    internalSupportNeededSpo,
+  } = req.body;
+  const doc = new PDFDocument();
+
+  doc.image("controllers/assets/picto.png", 50, 0, { width: 70 });
+  doc.image("controllers/assets/ecriture.png", 400, 15, { width: 170 });
+  doc
+    .fontSize(24)
+    .font("Times-Bold")
+    .fillColor("#008080")
+    .text("Internal Memo for DG", { align: "center" });
+
+  doc
+    .fontSize(16)
+    .font("Times-Bold")
+    .fillColor("#7C9597")
+    .text("PRESENTED BY", 20, 100);
+
+  doc
+    .fillColor("#000000")
+    .fontSize(14)
+    .font("Helvetica")
+    .text(
+      `department name : ${!departmentName ? "" : departmentName}`,
+      20,
+      120
+    );
+
+  doc.text(`event name : ${!eventName ? "" : eventName}`, 20, 140);
+  doc.text(`location : ${!location ? "" : location}`, 20, 160);
+  doc
+    .text(`event Date : ${!eventDate ? "" : eventDate}`, 20, 180)
+    .moveDown(0.5);
+  doc
+    .fontSize(16)
+    .font("Times-Bold")
+    .fillColor("#7C9597")
+    .text("EVENT / PROJECT DETAILS", 20, 220);
+  doc
+    .fillColor("#000000")
+    .fontSize(14)
+    .font("Helvetica")
+    .text(`initiativeIs : ${!initiativeIs ? "" : initiativeIs}`, 20, 240);
+  doc.text(`ferequincy : ${!ferequincy ? "" : ferequincy}`, 20, 260);
+  doc.text(
+    `stakeHoldersMember : ${!stakeHoldersMember ? "" : stakeHoldersMember}`,
+    20,
+    280
+  );
+  doc.text(
+    `initiativeNeeds : ${!initiativeNeeds ? "" : initiativeNeeds}`,
+    20,
+    300
+  );
+  doc.text(
+    `stakeHoldersNoMember : ${
+      !stakeHoldersNoMember ? "" : stakeHoldersNoMember
+    }`,
+    20,
+    320
+  );
+  doc
+    .fontSize(16)
+    .font("Times-Bold")
+    .fillColor("#7C9597")
+    .text("DG PARTICIPATION INFORMATION", 20, 360);
+  doc
+    .fillColor("#000000")
+    .fontSize(14)
+    .font("Helvetica")
+    .text(
+      `dgParticipation : ${!dgParticipation ? "" : dgParticipation}`,
+      20,
+      380
+    );
+  doc.text(`speechTopic : ${!speechTopic ? "" : speechTopic} `, 20, 400);
+  doc.text(`speechPoints : ${!speechPoints ? "" : speechPoints}`, 20, 420);
+  doc.text(
+    `speechDuration : ${!speechDuration ? "" : speechDuration}`,
+    20,
+    440
+  );
+  doc.text(`speechDate : ${!speechDate ? "" : speechDate}`, 20, 460);
+  doc.text(`eventAttended : ${!eventAttended ? "" : eventAttended}`, 20, 480);
+  doc.text(
+    `eventPartnership : ${!eventPartnership ? "" : eventPartnership}`,
+    20,
+    500
+  );
+  doc.text(
+    `eventStateMember : ${!eventStateMember ? "" : eventStateMember}`,
+    20,
+    520
+  );
+  doc.text(`numCoverage : ${!numCoverage ? "" : numCoverage}`, 20, 540);
+  doc
+    .fontSize(16)
+    .font("Times-Bold")
+    .fillColor("#7C9597")
+    .text("FINANCIAL COVERAGE BY STAKEHOLDERS", 20, 580);
+  doc
+    .fillColor("#000000")
+    .fontSize(14)
+    .font("Helvetica")
+    .text(`coverageFor : ${!coverageFor ? "" : coverageFor}`, 20, 600);
+  doc.text(
+    `inpactInternal : ${!inpactInternal ? "" : inpactInternal}`,
+    20,
+    620
+  );
+  doc.text(
+    `internalSupport : ${!internalSupport ? "" : internalSupport} `,
+    20,
+    640
+  );
+
+  doc.text(
+    `internalSupportNeededSup : ${
+      !internalSupportNeededSup ? "" : internalSupportNeededSup
+    }`,
+    20,
+    660
+  );
+  doc.text(
+    `internalSupportNeededSpo : ${
+      !internalSupportNeededSpo ? "" : internalSupportNeededSpo
+    }`,
+    20,
+    680
+  );
+  doc
+    .fontSize(16)
+    .font("Times-Bold")
+    .fillColor("#000")
+    .text("DG directions", { align: "right" });
+
+  doc.pipe(fs.createWriteStream("controllers/pdf/output.pdf")); // write to PDF
+  doc.end();
   res.status(200).json({ message: "your request seccussfully submited" });
   sendEmail(
     req.body,
-    "chegdali.amine@gmail.com , cabdg@icesco.org",
+    "chegdali.amine@gmail.com, cabdg@icesco.org",
     req.body.invitation.base64,
     req.body.eventconcept.base64,
     req.body.attendees.base64
