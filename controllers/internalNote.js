@@ -168,6 +168,7 @@ exports.createIntnote = (req, res) => {
     ferequincy,
     stakeHoldersMember,
     stakeHoldersNoMember,
+    stakeHolderspartner,
     initiativeNeeds,
     dgParticipation,
     speechTopic,
@@ -205,15 +206,15 @@ exports.createIntnote = (req, res) => {
     .fontSize(14)
     .font("Helvetica")
     .text(
-      `department name : ${!departmentName ? "" : departmentName}`,
+      `Department : ${!departmentName ? "" : departmentName}`,
       20,
       120
     );
 
-  doc.text(`event name : ${!eventName ? "" : eventName}`, 20, 140);
-  doc.text(`location : ${!location ? "" : location}`, 20, 160);
+  doc.text(`Event/ project name : ${!eventName ? "" : eventName}`, 20, 140);
+  doc.text(`Implementation location : ${!location ? "" : location}`, 20, 160);
   doc
-    .text(`event Date : ${!eventDate ? "" : eventDate}`, 20, 180)
+    .text(`Event Date : ${!eventDate ? "" : eventDate}`, 20, 180)
     .moveDown(0.5);
   doc
     .fontSize(16)
@@ -224,59 +225,67 @@ exports.createIntnote = (req, res) => {
     .fillColor("#000000")
     .fontSize(14)
     .font("Helvetica")
-    .text(`initiativeIs : ${!initiativeIs ? "" : initiativeIs}`, 20, 240);
-  doc.text(`ferequincy : ${!ferequincy ? "" : ferequincy}`, 20, 260);
+    .text(`The Initiative is : ${!initiativeIs ? "" : initiativeIs}`, 20, 240);
+  doc.text(`Initiative frequency: ${!ferequincy ? "" : ferequincy}`, 20, 260);
   doc.text(
-    `stakeHoldersMember : ${!stakeHoldersMember ? "" : stakeHoldersMember}`,
+    `Member state : ${!stakeHoldersMember ? "" : stakeHoldersMember}`,
     20,
     280
   );
   doc.text(
-    `initiativeNeeds : ${!initiativeNeeds ? "" : initiativeNeeds}`,
+    `Non member state : ${
+      !stakeHoldersNoMember ? "" : stakeHoldersNoMember
+    }`,
     20,
     300
   );
   doc.text(
-    `stakeHoldersNoMember : ${
-      !stakeHoldersNoMember ? "" : stakeHoldersNoMember
+    `Partner : ${
+      !stakeHolderspartner ? "" : stakeHolderspartner
     }`,
     20,
     320
   );
+  doc.text(
+    `The Initiative requires : ${!initiativeNeeds ? "" : initiativeNeeds}`,
+    20,
+    340
+  );
+
   doc
     .fontSize(16)
     .font("Times-Bold")
     .fillColor("#7C9597")
-    .text("DG PARTICIPATION INFORMATION", 20, 360);
+    .text("DG PARTICIPATION INFORMATION", 20, 380);
   doc
     .fillColor("#000000")
     .fontSize(14)
     .font("Helvetica")
     .text(
-      `dgParticipation : ${!dgParticipation ? "" : dgParticipation}`,
+      `DG participation : ${!dgParticipation ? "" : dgParticipation}`,
       20,
-      380
+      400
     );
-  doc.text(`speechTopic : ${!speechTopic ? "" : speechTopic} `, 20, 400);
-  doc.text(`speechPoints : ${!speechPoints ? "" : speechPoints}`, 20, 420);
+  doc.text(`Speech Topic : ${!speechTopic ? "" : speechTopic} `, 20, 420);
+  doc.text(`Key Points : ${!speechPoints ? "" : speechPoints}`, 20, 440);
   doc.text(
-    `speechDuration : ${!speechDuration ? "" : speechDuration}`,
+    `Speech Duration : ${!speechDuration ? "" : speechDuration}`,
     20,
-    440
+    460
   );
-  doc.text(`speechDate : ${!speechDate ? "" : speechDate}`, 20, 460);
-  doc.text(`eventAttended : ${!eventAttended ? "" : eventAttended}`, 20, 480);
+  doc.text(`Speech Date : ${!speechDate ? "" : speechDate}`, 20, 480);
+  doc.text(`Participation Level : ${!eventAttended ? "" : eventAttended}`, 20, 500);
   doc.text(
-    `eventPartnership : ${!eventPartnership ? "" : eventPartnership}`,
-    20,
-    500
-  );
-  doc.text(
-    `eventStateMember : ${!eventStateMember ? "" : eventStateMember}`,
+    `Partnership : ${!eventPartnership ? "" : eventPartnership}`,
     20,
     520
   );
-  doc.text(`numCoverage : ${!numCoverage ? "" : numCoverage}`, 20, 540);
+  doc.text(
+    `State member engagement : ${!eventStateMember ? "" : eventStateMember}`,
+    20,
+    540
+  );
+  
   doc
     .fontSize(16)
     .font("Times-Bold")
@@ -286,44 +295,45 @@ exports.createIntnote = (req, res) => {
     .fillColor("#000000")
     .fontSize(14)
     .font("Helvetica")
-    .text(`coverageFor : ${!coverageFor ? "" : coverageFor}`, 20, 600);
+    .text(`Coverage For : ${!coverageFor ? "" : coverageFor}`, 20, 600);
+    doc.text(`People covered : ${!numCoverage ? "" : numCoverage}`, 20, 620);
   doc.text(
-    `inpactInternal : ${!inpactInternal ? "" : inpactInternal}`,
-    20,
-    620
-  );
-  doc.text(
-    `internalSupport : ${!internalSupport ? "" : internalSupport} `,
+    `Initiative impact on ICESCO: ${!inpactInternal ? "" : inpactInternal}`,
     20,
     640
   );
-
   doc.text(
-    `internalSupportNeededSup : ${
-      !internalSupportNeededSup ? "" : internalSupportNeededSup
-    }`,
+    `Internal Support required    : ${!internalSupport ? "" : internalSupport} `,
     20,
     660
   );
+
   doc.text(
-    `internalSupportNeededSpo : ${
-      !internalSupportNeededSpo ? "" : internalSupportNeededSpo
+    `Suppliers for : ${
+      !internalSupportNeededSup ? "" : internalSupportNeededSup
     }`,
     20,
     680
   );
-  doc
-    .fontSize(16)
-    .font("Times-Bold")
-    .fillColor("#000")
-    .text("DG directions", { align: "right" });
+  doc.text(
+    `Sponsors for : ${
+      !internalSupportNeededSpo ? "" : internalSupportNeededSpo
+    }`,
+    20,
+    700
+  );
+  // doc
+  //   .fontSize(14)
+  //   .font("Times-Bold")
+  //   .fillColor("#000")
+  //   .text("DG directions", { align: "right" });
 
   doc.pipe(fs.createWriteStream("controllers/pdf/output.pdf")); // write to PDF
   doc.end();
   res.status(200).json({ message: "your request seccussfully submited" });
   sendEmail(
     req.body,
-    "chegdali.amine@gmail.com, cabdg@icesco.org",
+    "a.chegdali@icesco.org, cabdg@icesco.org",
     req.body.invitation.base64,
     req.body.eventconcept.base64,
     req.body.attendees.base64
