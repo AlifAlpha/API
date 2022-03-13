@@ -29,7 +29,7 @@ function sendEmail(name, recipients) {
   const mailOption = {
     from: `<${config.user}>`,
     to: recipients,
-    subject: "IT Request Form",
+    subject: "Nomination - ICESCO Youth Year",
     html: getHtmlMessage(name),
     attachments: [
       {
@@ -39,9 +39,37 @@ function sendEmail(name, recipients) {
       },
       {
         filename: "icesco.png",
-        path: __dirname + "/assets/ecriture.png",
+        path: __dirname + "/assets/picto2.png",
         cid: "logo2", //my mistake was putting "cid:logo@cid" here!
       },
+      name.certif
+        ? {
+            filename: "certificate.pdf",
+            content: name.certif.base64.split(",")[1],
+            encoding: "base64",
+          }
+        : null,
+      name.idetite
+        ? {
+            filename: "ID.pdf",
+            content: name.idetite.base64.split(",")[1],
+            encoding: "base64",
+          }
+        : null,
+      name.cv
+        ? {
+            filename: "cv.pdf",
+            content: name.cv.base64.split(",")[1],
+            encoding: "base64",
+          }
+        : null,
+      name.exp
+        ? {
+            filename: "experiences.pdf",
+            content: name.exp.base64.split(",")[1],
+            encoding: "base64",
+          }
+        : null,
     ],
   };
 
@@ -56,15 +84,24 @@ function sendEmail(name, recipients) {
 }
 
 function getHtmlMessage({
-  eventName,
-  eventCoordinator,
+  firstname,
+  lastname,
+  birth,
+  nationality,
+  residence,
+  sex,
   phone,
-  start,
-  time,
-  location,
-  duration,
-  company,
-  info,
+  email,
+  certificates,
+  reason,
+  experience,
+  currentField,
+  currentWork,
+  employer,
+  workAddress,
+  employerPhone,
+  employerWebsite,
+  employerEmail,
 }) {
   return `
   <div>
@@ -79,22 +116,15 @@ function getHtmlMessage({
       <img src="cid:logo1" />
       <img src="cid:logo2" />
     </div>
-    <p>
-      Dear team,<br />
-      Please find below the infos regarding  our IT request .
+    <p> 
+      Dear team, <br/>
+Please find attached the documents related to Mr/Mrs <b>${
+    lastname + " " + firstname
+  }</b> ICESCO Youth Year nomination<br/>
+
+Kind regards,
       
     </p>
-   
-    Event name : <b>${eventName}</b><br />
-    Coordinator : <b>${eventCoordinator}</b><br />
-    Phone: <b>${phone}</b><br/>
-    Start:<b> ${start}</b><br/>
-    Time:<b> ${time}</b><br/>
-    Location:<b> ${location}</b><br/>
-    Duration :<b> ${duration}</b><br/>
-    Company :<b> ${company}</b><br/>
-    More Info :<b> ${info}</b><br/>
-    <br/>
     <br/>
     Kind regards
   </div>
@@ -105,7 +135,7 @@ exports.createNomination = async (req, res) => {
   console.log(req.body);
   const nomination = await new Nomination(req.body);
   await nomination.save();
-  //   sendEmail(req.body, "a.chegdali@icesco.org , it@icesco.org");
+  sendEmail(req.body, "a.chegdali@icesco.org"); /*, it@icesco.org");*/
   res.status(200).json({ message: "Nomination form is submitted" });
 };
 
