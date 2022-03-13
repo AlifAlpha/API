@@ -53,6 +53,7 @@ const room = require("./routers/rooms");
 const notedg = require("./routers/internalNote");
 const travelinfo = require("./routers/travelinfo");
 const participation = require("./routers/participation");
+const nomination = require("./routers/nomination");
 
 app.use("/", leaveTypesRouter);
 app.use("/", users);
@@ -69,6 +70,7 @@ app.use("/", room);
 app.use("/", notedg);
 app.use("/", travelinfo);
 app.use("/", participation);
+app.use("/", nomination);
 
 // port
 
