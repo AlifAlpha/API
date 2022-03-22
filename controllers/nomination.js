@@ -104,13 +104,9 @@ function getHtmlMessage({
   certificates,
   reason,
   experience,
-  currentField,
-  currentWork,
-  employer,
-  workAddress,
-  employerPhone,
-  employerWebsite,
-  employerEmail,
+  recommandName,
+  recommandPhone,
+  recommandEmail,
 }) {
   return `
   <div>
@@ -142,13 +138,10 @@ Please find attached the documents related to Mr/Mrs <b>${
   Personal email: <b> ${email} </b><br/><br/>
   Candidacy objective: <b> ${reason} </b><br/><br/><br/>
   Experience: <b> ${experience} </b><br/><br/><br/>
-  Work field: <b> ${currentField} </b><br/>
-  Current job: <b> ${currentWork} </b><br/>
-  Employer: <b> ${employer} </b><br/>
-  Professional adress: <b> ${workAddress} </b><br/>
-  Professional phone: <b> ${employerPhone} </b><br/>
-  Employer website: <b> ${employerWebsite} </b><br/>
-  Employer Email: <b> ${employerEmail} </b><br/><br/>
+  recommander's Name: <b> ${recommandName} </b><br/>
+  recommander's Phone: <b> ${recommandPhone} </b><br/>
+  recommander's Email: <b> ${recommandEmail} </b><br/>
+  
 
 Kind regards,
       
