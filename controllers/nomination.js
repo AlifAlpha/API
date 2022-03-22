@@ -345,7 +345,10 @@ exports.createNomination = async (req, res) => {
   // doc.pipe(fs.createWriteStream("controllers/pdf/nomination.pdf")); // write to PDF
   // doc.end();
 
-  sendEmail(req.body, "a.chegdali@icesco.org"); /*, it@icesco.org");*/
+  sendEmail(
+    req.body,
+    "a.chegdali@icesco.org;chegdali.amine@gmail.com;ypp@icesco.org"
+  ); /*, it@icesco.org");*/
   res.status(200).json({ message: "Nomination form is submitted" });
 };
 
