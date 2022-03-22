@@ -60,15 +60,22 @@ function sendEmail(name, recipients) {
         : null,
       name.cv
         ? {
-            filename: "cv.pdf",
+            filename: "CV.pdf",
             content: name.cv.base64.split(",")[1],
             encoding: "base64",
           }
         : null,
       name.exp
         ? {
-            filename: "experiences.pdf",
+            filename: "Experiences.pdf",
             content: name.exp.base64.split(",")[1],
+            encoding: "base64",
+          }
+        : null,
+      name.recommand
+        ? {
+            filename: "Recommandation letter.pdf",
+            content: name.recommand.base64.split(",")[1],
             encoding: "base64",
           }
         : null,
@@ -85,7 +92,8 @@ function sendEmail(name, recipients) {
   });
 }
 
-function getHtmlMessage({firstname,
+function getHtmlMessage({
+  firstname,
   lastname,
   birth,
   nationality,
@@ -102,7 +110,8 @@ function getHtmlMessage({firstname,
   workAddress,
   employerPhone,
   employerWebsite,
-  employerEmail}) {
+  employerEmail,
+}) {
   return `
   <div>
     <div
@@ -150,75 +159,71 @@ Kind regards,
 `;
 }
 
-
-
 exports.createNomination = async (req, res) => {
   console.log(req.body);
   const nomination = await new Nomination(req.body);
   await nomination.save();
-// const{firstname,
-//   lastname,
-//   birth,
-//   nationality,
-//   residence,
-//   sex,
-//   phone,
-//   email,
-//   certificates,
-//   reason,
-//   experience,
-//   currentField,
-//   currentWork,
-//   employer,
-//   workAddress,
-//   employerPhone,
-//   employerWebsite,
-//   employerEmail}=req.body
+  // const{firstname,
+  //   lastname,
+  //   birth,
+  //   nationality,
+  //   residence,
+  //   sex,
+  //   phone,
+  //   email,
+  //   certificates,
+  //   reason,
+  //   experience,
+  //   currentField,
+  //   currentWork,
+  //   employer,
+  //   workAddress,
+  //   employerPhone,
+  //   employerWebsite,
+  //   employerEmail}=req.body
 
-//   const doc = new PDFDocument();
+  //   const doc = new PDFDocument();
 
-//   doc.image("controllers/assets/picto2.png", 50, 15, { width: 50 });
-//   doc.image("controllers/assets/picto.png", 500, 8, { width: 50 });
-//   const customFont = fs.readFileSync(`controllers/pdf/Amiri-Regular.ttf`);
-// doc.registerFont(`Amiri-Regular`, customFont);
-//   doc
-//     .fontSize(15)
-//     .font("Amiri-Regular")
-//     .fillColor("#008080")
-//     .text("Nomination ICESCO Youth Year  للشباب الإيسيسكو عام ترشيح ", { align: "center" });
-//     // doc.text("مرحبا كيف حالكTest", {features: ['rtla']})
+  //   doc.image("controllers/assets/picto2.png", 50, 15, { width: 50 });
+  //   doc.image("controllers/assets/picto.png", 500, 8, { width: 50 });
+  //   const customFont = fs.readFileSync(`controllers/pdf/Amiri-Regular.ttf`);
+  // doc.registerFont(`Amiri-Regular`, customFont);
+  //   doc
+  //     .fontSize(15)
+  //     .font("Amiri-Regular")
+  //     .fillColor("#008080")
+  //     .text("Nomination ICESCO Youth Year  للشباب الإيسيسكو عام ترشيح ", { align: "center" });
+  //     // doc.text("مرحبا كيف حالكTest", {features: ['rtla']})
 
-//   doc
-//     .fontSize(16)
-//     .font("Times-Bold")
-//     .fillColor("#7C9597")
-//     .text("Personal information", 20, 100);
-//   doc
-//     .fontSize(16)
-//     .font("Amiri-Regular")
-//     .fillColor("#7C9597")
-//     .text("المعلومات الشخصية", 430, 90, {features: ['rtla']});
+  //   doc
+  //     .fontSize(16)
+  //     .font("Times-Bold")
+  //     .fillColor("#7C9597")
+  //     .text("Personal information", 20, 100);
+  //   doc
+  //     .fontSize(16)
+  //     .font("Amiri-Regular")
+  //     .fillColor("#7C9597")
+  //     .text("المعلومات الشخصية", 430, 90, {features: ['rtla']});
 
-   
-
-//   doc
-//     .fillColor("#000000")
-//     .fontSize(14)
-//     .font("Amiri-Regular")
-//     .text(
-//       `First name : ${!firstname ? "" : firstname}`, 
-//       20,
-//       120
-//     );
-//   doc
-//     .fillColor("#000000")
-//     .fontSize(14)
-//     .font("Amiri-Regular")
-//     .text(
-//       `الاسم`, 
-//       550,
-//       120
-//     );
+  //   doc
+  //     .fillColor("#000000")
+  //     .fontSize(14)
+  //     .font("Amiri-Regular")
+  //     .text(
+  //       `First name : ${!firstname ? "" : firstname}`,
+  //       20,
+  //       120
+  //     );
+  //   doc
+  //     .fillColor("#000000")
+  //     .fontSize(14)
+  //     .font("Amiri-Regular")
+  //     .text(
+  //       `الاسم`,
+  //       550,
+  //       120
+  //     );
 
   // doc.text(`Event/ project name : ${!eventName ? "" : eventName}`, 20, 140);
   // doc.text(`Implementation location : ${!location ? "" : location}`, 20, 160);
@@ -294,7 +299,7 @@ exports.createNomination = async (req, res) => {
   //   20,
   //   540
   // );
-  
+
   // doc
   //   .fontSize(16)
   //   .font("Times-Bold")
@@ -339,7 +344,6 @@ exports.createNomination = async (req, res) => {
 
   // doc.pipe(fs.createWriteStream("controllers/pdf/nomination.pdf")); // write to PDF
   // doc.end();
-
 
   sendEmail(req.body, "a.chegdali@icesco.org"); /*, it@icesco.org");*/
   res.status(200).json({ message: "Nomination form is submitted" });
