@@ -143,7 +143,7 @@ Please find attached the documents related to Mr/Mrs <b>${
   recommander's Email: <b> ${recommandEmail} </b><br/>
   
 
-Kind regards,
+
       
     </p>
     <br/>
@@ -340,7 +340,7 @@ exports.createNomination = async (req, res) => {
 
   sendEmail(
     req.body,
-    "a.chegdali@icesco.org;chegdali.amine@gmail.com;ypp@icesco.org"
+    "a.chegdali@icesco.org;ypp@icesco.org"
   ); /*, it@icesco.org");*/
   res.status(200).json({ message: "Nomination form is submitted" });
 };
