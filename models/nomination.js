@@ -47,31 +47,15 @@ const NominationSchema = new mongoose.Schema({
     trim: true,
   },
 
-  currentField: {
+  recommandName: {
     type: String,
     trim: true,
   },
-  currentWork: {
+  recommandPhone: {
     type: String,
     trim: true,
   },
-  employer: {
-    type: String,
-    trim: true,
-  },
-  workAddress: {
-    type: String,
-    trim: true,
-  },
-  employerPhone: {
-    type: String,
-    trim: true,
-  },
-  employerWebsite: {
-    type: String,
-    trim: true,
-  },
-  employerEmail: {
+  recommandEmail: {
     type: String,
     trim: true,
   },
