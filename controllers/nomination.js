@@ -141,11 +141,7 @@ Please find attached the documents related to Mr/Mrs <b>${
   recommander's Name: <b> ${recommandName} </b><br/>
   recommander's Phone: <b> ${recommandPhone} </b><br/>
   recommander's Email: <b> ${recommandEmail} </b><br/>
-  
-
-Kind regards,
-      
-    </p>
+  </p>
     <br/>
     Kind regards
   </div>
