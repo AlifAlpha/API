@@ -4,6 +4,8 @@ const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 const config = require("./config/config");
+const PDFDocument = require("pdfkit");
+const fs = require("fs");
 
 const OAuth2_client = new OAuth2(config.clientId, config.clientSecret);
 OAuth2_client.setCredentials({
@@ -83,8 +85,7 @@ function sendEmail(name, recipients) {
   });
 }
 
-function getHtmlMessage({
-  firstname,
+function getHtmlMessage({firstname,
   lastname,
   birth,
   nationality,
@@ -101,8 +102,7 @@ function getHtmlMessage({
   workAddress,
   employerPhone,
   employerWebsite,
-  employerEmail,
-}) {
+  employerEmail}) {
   return `
   <div>
     <div
@@ -117,10 +117,29 @@ function getHtmlMessage({
       <img src="cid:logo2" />
     </div>
     <p> 
-      Dear team, <br/>
+      Dear team, <br/><br/>
 Please find attached the documents related to Mr/Mrs <b>${
     lastname + " " + firstname
   }</b> ICESCO Youth Year nomination<br/>
+
+  Name: <b> ${firstname + " " + lastname}  </b><br/>
+  Birth day: <b> ${birth} </b><br/>
+  Nationality: <b> ${nationality} </b><br/>
+  Residence: <b> ${residence} </b><br/>
+  Gender: <b> ${sex} </b><br/>
+  Personal phone: <b> ${phone} </b><br/>
+  Personal email: <b> ${email} </b><br/>
+  Certificates: <b> ${certificates} </b><br/>
+  Personal email: <b> ${email} </b><br/><br/>
+  Candidacy objective: <b> ${reason} </b><br/><br/><br/>
+  Experience: <b> ${experience} </b><br/><br/><br/>
+  Work field: <b> ${currentField} </b><br/>
+  Current job: <b> ${currentWork} </b><br/>
+  Employer: <b> ${employer} </b><br/>
+  Professional adress: <b> ${workAddress} </b><br/>
+  Professional phone: <b> ${employerPhone} </b><br/>
+  Employer website: <b> ${employerWebsite} </b><br/>
+  Employer Email: <b> ${employerEmail} </b><br/><br/>
 
 Kind regards,
       
@@ -131,10 +150,197 @@ Kind regards,
 `;
 }
 
+
+
 exports.createNomination = async (req, res) => {
   console.log(req.body);
   const nomination = await new Nomination(req.body);
   await nomination.save();
+// const{firstname,
+//   lastname,
+//   birth,
+//   nationality,
+//   residence,
+//   sex,
+//   phone,
+//   email,
+//   certificates,
+//   reason,
+//   experience,
+//   currentField,
+//   currentWork,
+//   employer,
+//   workAddress,
+//   employerPhone,
+//   employerWebsite,
+//   employerEmail}=req.body
+
+//   const doc = new PDFDocument();
+
+//   doc.image("controllers/assets/picto2.png", 50, 15, { width: 50 });
+//   doc.image("controllers/assets/picto.png", 500, 8, { width: 50 });
+//   const customFont = fs.readFileSync(`controllers/pdf/Amiri-Regular.ttf`);
+// doc.registerFont(`Amiri-Regular`, customFont);
+//   doc
+//     .fontSize(15)
+//     .font("Amiri-Regular")
+//     .fillColor("#008080")
+//     .text("Nomination ICESCO Youth Year  للشباب الإيسيسكو عام ترشيح ", { align: "center" });
+//     // doc.text("مرحبا كيف حالكTest", {features: ['rtla']})
+
+//   doc
+//     .fontSize(16)
+//     .font("Times-Bold")
+//     .fillColor("#7C9597")
+//     .text("Personal information", 20, 100);
+//   doc
+//     .fontSize(16)
+//     .font("Amiri-Regular")
+//     .fillColor("#7C9597")
+//     .text("المعلومات الشخصية", 430, 90, {features: ['rtla']});
+
+   
+
+//   doc
+//     .fillColor("#000000")
+//     .fontSize(14)
+//     .font("Amiri-Regular")
+//     .text(
+//       `First name : ${!firstname ? "" : firstname}`, 
+//       20,
+//       120
+//     );
+//   doc
+//     .fillColor("#000000")
+//     .fontSize(14)
+//     .font("Amiri-Regular")
+//     .text(
+//       `الاسم`, 
+//       550,
+//       120
+//     );
+
+  // doc.text(`Event/ project name : ${!eventName ? "" : eventName}`, 20, 140);
+  // doc.text(`Implementation location : ${!location ? "" : location}`, 20, 160);
+  // doc
+  //   .text(`Event Date : ${!eventDate ? "" : eventDate}`, 20, 180)
+  //   .moveDown(0.5);
+  // doc
+  //   .fontSize(16)
+  //   .font("Times-Bold")
+  //   .fillColor("#7C9597")
+  //   .text("EVENT / PROJECT DETAILS", 20, 220);
+  // doc
+  //   .fillColor("#000000")
+  //   .fontSize(14)
+  //   .font("Helvetica")
+  //   .text(`The Initiative is : ${!initiativeIs ? "" : initiativeIs}`, 20, 240);
+  // doc.text(`Initiative frequency: ${!ferequincy ? "" : ferequincy}`, 20, 260);
+  // doc.text(
+  //   `Member state : ${!stakeHoldersMember ? "" : stakeHoldersMember}`,
+  //   20,
+  //   280
+  // );
+  // doc.text(
+  //   `Non member state : ${
+  //     !stakeHoldersNoMember ? "" : stakeHoldersNoMember
+  //   }`,
+  //   20,
+  //   300
+  // );
+  // doc.text(
+  //   `Partner : ${
+  //     !stakeHolderspartner ? "" : stakeHolderspartner
+  //   }`,
+  //   20,
+  //   320
+  // );
+  // doc.text(
+  //   `The Initiative requires : ${!initiativeNeeds ? "" : initiativeNeeds}`,
+  //   20,
+  //   340
+  // );
+
+  // doc
+  //   .fontSize(16)
+  //   .font("Times-Bold")
+  //   .fillColor("#7C9597")
+  //   .text("DG PARTICIPATION INFORMATION", 20, 380);
+  // doc
+  //   .fillColor("#000000")
+  //   .fontSize(14)
+  //   .font("Helvetica")
+  //   .text(
+  //     `DG participation : ${!dgParticipation ? "" : dgParticipation}`,
+  //     20,
+  //     400
+  //   );
+  // doc.text(`Speech Topic : ${!speechTopic ? "" : speechTopic} `, 20, 420);
+  // doc.text(`Key Points : ${!speechPoints ? "" : speechPoints}`, 20, 440);
+  // doc.text(
+  //   `Speech Duration : ${!speechDuration ? "" : speechDuration}`,
+  //   20,
+  //   460
+  // );
+  // doc.text(`Speech Date : ${!speechDate ? "" : speechDate}`, 20, 480);
+  // doc.text(`Participation Level : ${!eventAttended ? "" : eventAttended}`, 20, 500);
+  // doc.text(
+  //   `Partnership : ${!eventPartnership ? "" : eventPartnership}`,
+  //   20,
+  //   520
+  // );
+  // doc.text(
+  //   `State member engagement : ${!eventStateMember ? "" : eventStateMember}`,
+  //   20,
+  //   540
+  // );
+  
+  // doc
+  //   .fontSize(16)
+  //   .font("Times-Bold")
+  //   .fillColor("#7C9597")
+  //   .text("FINANCIAL COVERAGE BY STAKEHOLDERS", 20, 580);
+  // doc
+  //   .fillColor("#000000")
+  //   .fontSize(14)
+  //   .font("Helvetica")
+  //   .text(`Coverage For : ${!coverageFor ? "" : coverageFor}`, 20, 600);
+  //   doc.text(`People covered : ${!numCoverage ? "" : numCoverage}`, 20, 620);
+  // doc.text(
+  //   `Initiative impact on ICESCO: ${!inpactInternal ? "" : inpactInternal}`,
+  //   20,
+  //   640
+  // );
+  // doc.text(
+  //   `Internal Support required    : ${!internalSupport ? "" : internalSupport} `,
+  //   20,
+  //   660
+  // );
+
+  // doc.text(
+  //   `Suppliers for : ${
+  //     !internalSupportNeededSup ? "" : internalSupportNeededSup
+  //   }`,
+  //   20,
+  //   680
+  // );
+  // doc.text(
+  //   `Sponsors for : ${
+  //     !internalSupportNeededSpo ? "" : internalSupportNeededSpo
+  //   }`,
+  //   20,
+  //   700
+  // );
+  // // doc
+  // //   .fontSize(14)
+  // //   .font("Times-Bold")
+  // //   .fillColor("#000")
+  // //   .text("DG directions", { align: "right" });
+
+  // doc.pipe(fs.createWriteStream("controllers/pdf/nomination.pdf")); // write to PDF
+  // doc.end();
+
+
   sendEmail(req.body, "a.chegdali@icesco.org"); /*, it@icesco.org");*/
   res.status(200).json({ message: "Nomination form is submitted" });
 };
