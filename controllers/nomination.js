@@ -1,5 +1,4 @@
-const Nomination = require("../models/nomination");
-const _ = require("lodash");
+const Nomination = require("../models/nomination");const _ = require("lodash");
 const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
@@ -219,7 +218,7 @@ exports.createNomination = async (req, res) => {
   await nomination.save();
 
   sendEmail(req.body, "a.chegdali@icesco.org;ypp@icesco.org");
-  // sendReplyEmail(req.body);
+  sendReplyEmail(req.body);
 
   res.status(200).json({ message: "Nomination form is submitted" });
 };
