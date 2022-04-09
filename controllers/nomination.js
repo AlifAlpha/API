@@ -1,5 +1,4 @@
-const Nomination = require("../models/nomination");
-const _ = require("lodash");
+const Nomination = require("../models/nomination");const _ = require("lodash");
 const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
@@ -13,21 +12,21 @@ OAuth2_client.setCredentials({
   forceRefreshOnFailure: true,
 });
 
-function sendEmail(name, recipients) {
-  const accessToken = OAuth2_client.getAccessToken();
+const accessToken = OAuth2_client.getAccessToken();
+const transport = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    type: "OAuth2",
+    user: config.user,
+    clientId: config.clientId,
+    clientSecret: config.clientSecret,
+    refreshToken: config.refreshToken,
+    accessToken: accessToken,
+    expires: 1484314697598,
+  },
+});
 
-  const transport = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      type: "OAuth2",
-      user: config.user,
-      clientId: config.clientId,
-      clientSecret: config.clientSecret,
-      refreshToken: config.refreshToken,
-      accessToken: accessToken,
-      expires: 1484314697598,
-    },
-  });
+function sendEmail(name, recipients) {
   const mailOption = {
     from: `<${config.user}>`,
     to: recipients,
@@ -91,7 +90,6 @@ function sendEmail(name, recipients) {
     transport.close();
   });
 }
-
 function getHtmlMessage({
   firstname,
   lastname,
@@ -148,71 +146,250 @@ Please find attached the documents related to Mr/Mrs <b>${
 `;
 }
 
+function sendReplyEmail({ email }) {
+  const mailReplyOption = {
+    from: `<${config.user}>`,
+    to: email,
+    subject: "noreply:Nomination - ICESCO Youth Year",
+    html: getHtmlReply(),
+    attachments: [
+      {
+        filename: "icesco.png",
+        path: __dirname + "/assets/picto.png",
+        cid: "logo1", //my mistake was putting "cid:logo@cid" here!
+      },
+      {
+        filename: "icesco.png",
+        path: __dirname + "/assets/picto2.png",
+        cid: "logo2", //my mistake was putting "cid:logo@cid" here!
+      },
+    ],
+  };
+  transport.sendMail(mailReplyOption, function (err, result) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("200", result);
+    }
+    transport.close();
+  });
+}
+function getHtmlReply() {
+  return `
+  <div>
+    <div
+      style="
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        height: 80px;
+      "
+    >
+      <img src="cid:logo1" />
+      <img src="cid:logo2" />
+    </div>
+    <p> 
+  
+    This is an auto-generated response.<br/>
+    Please do not reply to this email as it will not be received.<br/>
+    Thank you for applying to ICESCO’s Young Professionals program. 
+    We have received your application and will be processing it soon.<br/><br/>
+
+    هذا جواب تلقائي، يرجى عدم الرد على هذا البريد الإلكتروني لأنه لن يتم استلامه.<br/>
+    شكرًا على طلب الترشيح لبرنامج المهنيين الشباب التابع للإيسيسكو. لقد تلقينا طلبكم وسنقوم بدراسته قريبًا.<br/><br/>
+        
+  
+    Ceci est une réponse automatique, prière de ne pas répondre.<br/>
+    Nous vous remercions pour votre intérêt au programme des Jeunes Professionnels de l'ICESCO. 
+    Nous avons bien reçu votre candidature et nous la traiterons prochainement.<br/><br/>
+
+
+    </p>
+    <br/>
+    Kind regards,<br/>
+    ICESCO
+  </div>
+`;
+}
+
 exports.createNomination = async (req, res) => {
   console.log(req.body);
   const nomination = await new Nomination(req.body);
   await nomination.save();
-  // const{firstname,
-  //   lastname,
-  //   birth,
-  //   nationality,
-  //   residence,
-  //   sex,
-  //   phone,
-  //   email,
-  //   certificates,
-  //   reason,
-  //   experience,
-  //   currentField,
-  //   currentWork,
-  //   employer,
-  //   workAddress,
-  //   employerPhone,
-  //   employerWebsite,
-  //   employerEmail}=req.body
 
-  //   const doc = new PDFDocument();
+  sendEmail(req.body, "a.chegdali@icesco.org;ypp@icesco.org");
+  // sendReplyEmail(req.body);
 
-  //   doc.image("controllers/assets/picto2.png", 50, 15, { width: 50 });
-  //   doc.image("controllers/assets/picto.png", 500, 8, { width: 50 });
-  //   const customFont = fs.readFileSync(`controllers/pdf/Amiri-Regular.ttf`);
-  // doc.registerFont(`Amiri-Regular`, customFont);
-  //   doc
-  //     .fontSize(15)
-  //     .font("Amiri-Regular")
-  //     .fillColor("#008080")
-  //     .text("Nomination ICESCO Youth Year  للشباب الإيسيسكو عام ترشيح ", { align: "center" });
-  //     // doc.text("مرحبا كيف حالكTest", {features: ['rtla']})
+  res.status(200).json({ message: "Nomination form is submitted" });
+};
 
-  //   doc
-  //     .fontSize(16)
-  //     .font("Times-Bold")
-  //     .fillColor("#7C9597")
-  //     .text("Personal information", 20, 100);
-  //   doc
-  //     .fontSize(16)
-  //     .font("Amiri-Regular")
-  //     .fillColor("#7C9597")
-  //     .text("المعلومات الشخصية", 430, 90, {features: ['rtla']});
+exports.getNomination = (req, res) => {
+  let range = req.query.range || "[0,9]";
+  let sort = req.query.sort || '["createdAt" , "DESC"]';
+  let filter = req.query.filter || "{}";
+  let count;
+  range = JSON.parse(range);
+  sort = JSON.parse(sort);
+  filter = JSON.parse(filter);
+  if (filter.name) {
+    filter.name = { $regex: ".*" + filter.name + ".*" };
+  }
+  // ?
+  if (filter.start) {
+    let dateStr = new Date(filter.start);
+    let nextDate = new Date(filter.start);
+    nextDate.setDate(nextDate.getDate() + 1);
+    console.log(dateStr, nextDate);
+    filter.start = {
+      $gte: new Date(dateStr),
+      $lte: new Date(nextDate),
+    };
+  }
+  if (filter.id) {
+    filter._id = {
+      $in: [...filter.id.map((c) => mongoose.Types.ObjectId(c))],
+    };
+    delete filter.id;
+  }
+  console.log(filter);
 
-  //   doc
-  //     .fillColor("#000000")
-  //     .fontSize(14)
-  //     .font("Amiri-Regular")
-  //     .text(
-  //       `First name : ${!firstname ? "" : firstname}`,
-  //       20,
-  //       120
-  //     );
-  //   doc
-  //     .fillColor("#000000")
-  //     .fontSize(14)
-  //     .font("Amiri-Regular")
-  //     .text(
-  //       `الاسم`,
-  //       550,
-  //       120
-  //     );
+  Nomination.countDocuments(filter, function (err, c) {
+    count = c;
+    // console.log("hello", c);
+    let map = new Map([sort]);
+    Nomination.find(filter)
+      .sort(Object.fromEntries(map))
+      .skip(range[0])
+      .limit(range[1] + 1 - range[0])
+      .then((data) => {
+        let formatData = [];
+        console.log(data.length, range);
+        for (let i = 0; i < data.length; i++) {
+          formatData.push(data[i].transform());
+        }
+        res.set(
+          "Content-Range",
+          `Nomination ${range[0]}-${range[1] + 1}/${count}`
+        );
+        res.status(200).json(formatData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+};
+
+exports.getNominationById = (req, res, next, id) => {
+  Nomination.findById(id).exec((err, data) => {
+    if (err) {
+      return res.status(200).json({ error: "Nomination not found" });
+    }
+    req.nomination = data;
+
+    next();
+  });
+};
+
+exports.getOneNomination = (req, res) => {
+  nomination = req.nomination;
+  if (nomination) {
+    res.set("Content-Range", `nomination 0-1/1`);
+    res.json(nomination.transform());
+  } else
+    res.status(200).json({
+      id: "",
+      message: "nomination not found",
+    });
+};
+
+exports.updateNomination = (req, res) => {
+  let nomination = req.nomination;
+  nomination = _.extend(nomination, req.body);
+  nomination.save((err, nomination) => {
+    if (err) {
+      return res.status(403).json({ error: err });
+    }
+    return res.status(200).json(nomination.transform());
+  });
+};
+
+exports.deleteNomination = (req, res) => {
+  let nomination = req.nomination;
+
+  nomination.remove((err, nomination) => {
+    if (err) {
+      return res.status(400).json({ error: err });
+    }
+    res.json({
+      message: "nomination deleted successfully",
+    });
+  });
+};
+
+/* nomination pdf generater
+
+// const{firstname,
+//   lastname,
+//   birth,
+//   nationality,
+//   residence,
+//   sex,
+//   phone,
+//   email,
+//   certificates,
+//   reason,
+//   experience,
+//   currentField,
+//   currentWork,
+//   employer,
+//   workAddress,
+//   employerPhone,
+//   employerWebsite,
+//   employerEmail}=req.body
+
+//   const doc = new PDFDocument();
+
+//   doc.image("controllers/assets/picto2.png", 50, 15, { width: 50 });
+//   doc.image("controllers/assets/picto.png", 500, 8, { width: 50 });
+//   const customFont = fs.readFileSync(`controllers/pdf/Amiri-Regular.ttf`);
+// doc.registerFont(`Amiri-Regular`, customFont);
+//   doc
+//     .fontSize(15)
+//     .font("Amiri-Regular")
+//     .fillColor("#008080")
+//     .text("Nomination ICESCO Youth Year  للشباب الإيسيسكو عام ترشيح ", { align: "center" });
+//     // doc.text("مرحبا كيف حالكTest", {features: ['rtla']})
+
+//   doc
+//     .fontSize(16)
+//     .font("Times-Bold")
+//     .fillColor("#7C9597")
+//     .text("Personal information", 20, 100);
+//   doc
+//     .fontSize(16)
+//     .font("Amiri-Regular")
+//     .fillColor("#7C9597")
+//     .text("المعلومات الشخصية", 430, 90, {features: ['rtla']});
+
+//   doc
+//     .fillColor("#000000")
+//     .fontSize(14)
+//     .font("Amiri-Regular")
+//     .text(
+//       `First name : ${!firstname ? "" : firstname}`,
+//       20,
+//       120
+//     );
+//   doc
+//     .fillColor("#000000")
+//     .fontSize(14)
+//     .font("Amiri-Regular")
+//     .text(
+//       `الاسم`,
+//       550,
+//       120
+//     );
+
 
   // doc.text(`Event/ project name : ${!eventName ? "" : eventName}`, 20, 140);
   // doc.text(`Implementation location : ${!location ? "" : location}`, 20, 160);
@@ -333,113 +510,4 @@ exports.createNomination = async (req, res) => {
 
   // doc.pipe(fs.createWriteStream("controllers/pdf/nomination.pdf")); // write to PDF
   // doc.end();
-
-  sendEmail(
-    req.body,
-    "a.chegdali@icesco.org;chegdali.amine@gmail.com;ypp@icesco.org"
-  ); /*, it@icesco.org");*/
-  res.status(200).json({ message: "Nomination form is submitted" });
-};
-
-exports.getNomination = (req, res) => {
-  let range = req.query.range || "[0,9]";
-  let sort = req.query.sort || '["createdAt" , "DESC"]';
-  let filter = req.query.filter || "{}";
-  let count;
-  range = JSON.parse(range);
-  sort = JSON.parse(sort);
-  filter = JSON.parse(filter);
-  if (filter.name) {
-    filter.name = { $regex: ".*" + filter.name + ".*" };
-  }
-  // ?
-  if (filter.start) {
-    let dateStr = new Date(filter.start);
-    let nextDate = new Date(filter.start);
-    nextDate.setDate(nextDate.getDate() + 1);
-    console.log(dateStr, nextDate);
-    filter.start = {
-      $gte: new Date(dateStr),
-      $lte: new Date(nextDate),
-    };
-  }
-  if (filter.id) {
-    filter._id = {
-      $in: [...filter.id.map((c) => mongoose.Types.ObjectId(c))],
-    };
-    delete filter.id;
-  }
-  console.log(filter);
-
-  Nomination.countDocuments(filter, function (err, c) {
-    count = c;
-    // console.log("hello", c);
-    let map = new Map([sort]);
-    Nomination.find(filter)
-      .sort(Object.fromEntries(map))
-      .skip(range[0])
-      .limit(range[1] + 1 - range[0])
-      .then((data) => {
-        let formatData = [];
-        console.log(data.length, range);
-        for (let i = 0; i < data.length; i++) {
-          formatData.push(data[i].transform());
-        }
-        res.set(
-          "Content-Range",
-          `Nomination ${range[0]}-${range[1] + 1}/${count}`
-        );
-        res.status(200).json(formatData);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  });
-};
-
-exports.getNominationById = (req, res, next, id) => {
-  Nomination.findById(id).exec((err, data) => {
-    if (err) {
-      return res.status(200).json({ error: "Nomination not found" });
-    }
-    req.nomination = data;
-
-    next();
-  });
-};
-
-exports.getOneNomination = (req, res) => {
-  nomination = req.nomination;
-  if (nomination) {
-    res.set("Content-Range", `nomination 0-1/1`);
-    res.json(nomination.transform());
-  } else
-    res.status(200).json({
-      id: "",
-      message: "nomination not found",
-    });
-};
-
-exports.updateNomination = (req, res) => {
-  let nomination = req.nomination;
-  nomination = _.extend(nomination, req.body);
-  nomination.save((err, nomination) => {
-    if (err) {
-      return res.status(403).json({ error: err });
-    }
-    return res.status(200).json(nomination.transform());
-  });
-};
-
-exports.deleteNomination = (req, res) => {
-  let nomination = req.nomination;
-
-  nomination.remove((err, nomination) => {
-    if (err) {
-      return res.status(400).json({ error: err });
-    }
-    res.json({
-      message: "nomination deleted successfully",
-    });
-  });
-};
+*/
