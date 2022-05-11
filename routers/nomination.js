@@ -1,5 +1,4 @@
-const express = require("express");
-const {
+const express = require("express");const {
   createNomination,
   getNomination,
   getOneNomination,
