@@ -1,5 +1,4 @@
-const express = require("express");
-const app = express();
+const express = require("express");const app = express();
 const morgen = require("morgan");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -54,6 +53,7 @@ const notedg = require("./routers/internalNote");
 const travelinfo = require("./routers/travelinfo");
 const participation = require("./routers/participation");
 const nomination = require("./routers/nomination");
+const activity = require("./routers/activity");
 
 app.use("/", leaveTypesRouter);
 app.use("/", users);
@@ -71,6 +71,7 @@ app.use("/", notedg);
 app.use("/", travelinfo);
 app.use("/", participation);
 app.use("/", nomination);
+app.use("/", activity);
 
 // port
 
