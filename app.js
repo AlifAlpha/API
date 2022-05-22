@@ -54,6 +54,7 @@ const travelinfo = require("./routers/travelinfo");
 const participation = require("./routers/participation");
 const nomination = require("./routers/nomination");
 const activity = require("./routers/activity");
+const ltips = require("./routers/ltips");
 
 app.use("/", leaveTypesRouter);
 app.use("/", users);
@@ -72,6 +73,7 @@ app.use("/", travelinfo);
 app.use("/", participation);
 app.use("/", nomination);
 app.use("/", activity);
+app.use("/", ltips);
 
 // port
 
