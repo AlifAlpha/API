@@ -7,11 +7,11 @@ const express = require("express");const {
   deleteAcivity,
 } = require("../controllers/acitivity");
 const router = express.Router();
-router.post("/activity", createActivity);
-router.get("/activity", getActivities);
-router.get("/activity/:ActivityId", getOneActivity);
-router.put("/activity/:ActivityId", updateAcivity);
-router.delete("/activity/:ActivityId", deleteAcivity);
+router.post("/activities", createActivity);
+router.get("/activities", getActivities);
+router.get("/activities/:ActivityId", getOneActivity);
+router.put("/activities/:ActivityId", updateAcivity);
+router.delete("/activities/:ActivityId", deleteAcivity);
 
 router.param("ActivityId", getActivityById);
 
