@@ -1,5 +1,4 @@
-const express = require("express");
-const app = express();
+const express = require("express");const app = express();
 const morgen = require("morgan");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -72,7 +71,7 @@ app.use("/", notedg);
 app.use("/", travelinfo);
 app.use("/", participation);
 app.use("/", nomination);
-app.use("/", activity);
+app.use("/", activities);
 
 // port
 
