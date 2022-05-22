@@ -1,5 +1,4 @@
-const Activity = require("../models/activity");
-const _ = require("lodash");
+const Activity = require("../models/activity");const _ = require("lodash");
 const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
@@ -51,7 +50,7 @@ function sendEmail(name, recipient) {
       },
       {
         filename: "Program.pdf",
-        content: name.agenda.base64.split(",")[1],
+        content: name.programme.base64.split(",")[1],
         encoding: "base64",
       },
     ],
