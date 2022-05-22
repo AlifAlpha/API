@@ -1,4 +1,5 @@
-const Activity = require("../models/activity");const _ = require("lodash");
+const Activity = require("../models/activity");
+const _ = require("lodash");
 const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
@@ -8,10 +9,8 @@ OAuth2_client.setCredentials({
   refresh_token: config.refreshToken,
   forceRefreshOnFailure: true,
 });
-
-function sendEmail(name, recipient, conceptnote) {
+function sendEmail(name, recipient) {
   const accessToken = OAuth2_client.getAccessToken();
-
   const transport = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -27,7 +26,7 @@ function sendEmail(name, recipient, conceptnote) {
   const mailOption = {
     from: `<${config.user}>`,
     to: recipient,
-    subject: "DG Appointment Request",
+    subject: `ICESCO’s upcoming Programmes & Activities - ${name.name}`,
     html: getHtmlMessage(name),
     attachments: [
       {
@@ -41,8 +40,18 @@ function sendEmail(name, recipient, conceptnote) {
         cid: "logo2", //my mistake was putting "cid:logo@cid" here!
       },
       {
-        filename: "CV_DG_Appointments.pdf",
-        content: conceptnote.split(",")[1],
+        filename: "Working paper.pdf",
+        content: name.workingPaper.base64.split(",")[1],
+        encoding: "base64",
+      },
+      {
+        filename: "Agenda.pdf",
+        content: name.agenda.base64.split(",")[1],
+        encoding: "base64",
+      },
+      {
+        filename: "Program.pdf",
+        content: name.agenda.base64.split(",")[1],
         encoding: "base64",
       },
     ],
@@ -59,13 +68,19 @@ function sendEmail(name, recipient, conceptnote) {
 }
 
 function getHtmlMessage({
-  startMeet,
   name,
-  title,
-  dateDurStart,
-  dateDurEnd,
-  purpose,
-  appType,
+  date,
+  lieu,
+  organisation,
+  organizer,
+  language,
+  translation,
+  actionRequired,
+  contact,
+  email,
+  phone,
+  zoomLink,
+  meetingpassword,
 }) {
   return `
   <div>
@@ -80,20 +95,21 @@ function getHtmlMessage({
       <img src="cid:logo1" />
       <img src="cid:logo2" />
     </div>
-    <p>
-      Dear team,<br />
-      Please find below the infos regarding  our Appointment request to his excellency.
-    </p>
-   
-    start meeting: <b>${startMeet}</b><br />
-    Name: <b>${name}</b><br/>
-    Title:<b> ${title}</b><br/>
-    Purpose date:<b> ${purpose}</b><br/>
-    <h6>Duration</h6>
-    <b>From : </b> ${dateDurStart}<br/>
-    <b>To :</b> ${dateDurEnd}<br/>
-    App type:<b> ${appType}</b><br/>
-   
+    <p> 
+      Dear team, <br/><br/>
+Please find attached the documents related to :<b>${name} event on the ${date} in ${lieu}</b> <br/>
+  Format: <b> ${organisation} </b><br/>
+  Organizer: <b> ${organizer} </b><br/>
+  Language: <b> ${language} </b><br/>
+  Translation: <b> ${translation} </b><br/>
+  Action required: <br><b> ${actionRequired} </b><br/>
+  Contact: <b> ${contact} </b><br/>
+  Email: <b> ${email} </b><br/>
+  Phone: <b> ${phone} </b><br/>
+  ZoomLink: <b> ${zoomLink} </b><br/>
+  Meeting password: <b> ${meetingpassword} </b><br/>
+  </p>
+    <br/>
     Kind regards
   </div>
 `;
@@ -104,11 +120,7 @@ exports.createActivity = async (req, res) => {
   await activity.save();
   console.log(req.body);
   res.status(200).json({ message: "Your request is submitted" });
-  //   sendEmail(
-  //     req.body,
-  //     "chegdali.amine@gmail.com , cabdg@icesco.org",
-  //     req.body.attechedcv.base64
-  //   );
+  sendEmail(req.body, "a.chegdali@icesco.org;chegdali.amine@gmail.com");
 };
 
 exports.getActivities = (req, res) => {
