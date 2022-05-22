@@ -73,12 +73,8 @@ app.use("/", notedg);
 app.use("/", travelinfo);
 app.use("/", participation);
 app.use("/", nomination);
-<<<<<<< HEAD
-app.use("/", activity);
 app.use("/", ltips);
-=======
 app.use("/", activities);
->>>>>>> cd0bd9752095bc05ad869b76d4d69a9aee22849c
 
 // port
 
