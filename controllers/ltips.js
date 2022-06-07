@@ -1,225 +1,229 @@
-const Ltips = require("../models/ltips");
-const _ = require("lodash");
+const Ltips = require("../models/ltips");const _ = require("lodash");
 const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 const config = require("./config/config");
-// const PDFDocument = require("pdfkit");
-// const fs = require("fs");
+const PDFDocument = require("pdfkit");
+const fs = require("fs");
 
-// const OAuth2_client = new OAuth2(config.clientId, config.clientSecret);
-// OAuth2_client.setCredentials({
-//   refresh_token: config.refreshToken,
-//   forceRefreshOnFailure: true,
-// });
+const OAuth2_client = new OAuth2(config.clientId, config.clientSecret);
+OAuth2_client.setCredentials({
+  refresh_token: config.refreshToken,
+  forceRefreshOnFailure: true,
+});
 
-// const accessToken = OAuth2_client.getAccessToken();
-// const transport = nodemailer.createTransport({
-//   service: "gmail",
-//   auth: {
-//     type: "OAuth2",
-//     user: config.user,
-//     clientId: config.clientId,
-//     clientSecret: config.clientSecret,
-//     refreshToken: config.refreshToken,
-//     accessToken: accessToken,
-//     expires: 1484314697598,
-//   },
-// });
+const accessToken = OAuth2_client.getAccessToken();
+const transport = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    type: "OAuth2",
+    user: config.user,
+    clientId: config.clientId,
+    clientSecret: config.clientSecret,
+    refreshToken: config.refreshToken,
+    accessToken: accessToken,
+    expires: 1484314697598,
+  },
+});
 
-// function sendEmail(name, recipients) {
-//   const mailOption = {
-//     from: `<${config.user}>`,
-//     to: recipients,
-//     subject: "Nomination - ICESCO Youth Year",
-//     html: getHtmlMessage(name),
-//     attachments: [
-//       {
-//         filename: "icesco.png",
-//         path: __dirname + "/assets/picto.png",
-//         cid: "logo1", //my mistake was putting "cid:logo@cid" here!
-//       },
-//       {
-//         filename: "icesco.png",
-//         path: __dirname + "/assets/picto2.png",
-//         cid: "logo2", //my mistake was putting "cid:logo@cid" here!
-//       },
-//       name.certif
-//         ? {
-//             filename: "certificate.pdf",
-//             content: name.certif.base64.split(",")[1],
-//             encoding: "base64",
-//           }
-//         : null,
-//       name.idetite
-//         ? {
-//             filename: "ID.pdf",
-//             content: name.idetite.base64.split(",")[1],
-//             encoding: "base64",
-//           }
-//         : null,
-//       name.cv
-//         ? {
-//             filename: "CV.pdf",
-//             content: name.cv.base64.split(",")[1],
-//             encoding: "base64",
-//           }
-//         : null,
-//       name.exp
-//         ? {
-//             filename: "Experiences.pdf",
-//             content: name.exp.base64.split(",")[1],
-//             encoding: "base64",
-//           }
-//         : null,
-//       name.recommand
-//         ? {
-//             filename: "Recommandation letter.pdf",
-//             content: name.recommand.base64.split(",")[1],
-//             encoding: "base64",
-//           }
-//         : null,
-//     ],
-//   };
+function sendEmail(name, recipients) {
+  const mailOption = {
+    from: `<${config.user}>`,
+    to: recipients,
+    subject: "Leadership Taining in Peace and Security - Online Application",
+    html: getHtmlMessage(name),
+    attachments: [
+      {
+        filename: "icesco.png",
+        path: __dirname + "/assets/picto.png",
+        cid: "logo1", //my mistake was putting "cid:logo@cid" here!
+      },
+      {
+        filename: "icesco.png",
+        path: __dirname + "/assets/picto2.png",
+        cid: "logo2", //my mistake was putting "cid:logo@cid" here!
+      },
+      name.certif
+        ? {
+            filename: "certificate.pdf",
+            content: name.certif.base64.split(",")[1],
+            encoding: "base64",
+          }
+        : null,
+      name.idetite
+        ? {
+            filename: "ID.pdf",
+            content: name.idetite.base64.split(",")[1],
+            encoding: "base64",
+          }
+        : null,
+      name.cv
+        ? {
+            filename: "CV.pdf",
+            content: name.cv.base64.split(",")[1],
+            encoding: "base64",
+          }
+        : null,
+      name.exp
+        ? {
+            filename: "leadership.pdf",
+            content: name.exp.base64.split(",")[1],
+            encoding: "base64",
+          }
+        : null,
+      name.recommand
+        ? {
+            filename: "additional doc.pdf",
+            content: name.recommand.base64.split(",")[1],
+            encoding: "base64",
+          }
+        : null,
+    ],
+  };
 
-//   transport.sendMail(mailOption, function (err, result) {
-//     if (err) {
-//       console.log(err);
-//     } else {
-//       console.log("200", result);
-//     }
-//     transport.close();
-//   });
-// }
-// function getHtmlMessage({
-//   firstname,
-//   lastname,
-//   birth,
-//   nationality,
-//   residence,
-//   sex,
-//   phone,
-//   email,
-//   certificates,
-//   reason,
-//   experience,
-//   recommandName,
-//   recommandPhone,
-//   recommandEmail,
-// }) {
-//   return `
-//   <div>
-//     <div
-//       style="
-//         display: flex;
-//         flex-direction: row;
-//         justify-content: space-between;
-//         height: 80px;
-//       "
-//     >
-//       <img src="cid:logo1" />
-//       <img src="cid:logo2" />
-//     </div>
-//     <p> 
-//       Dear team, <br/><br/>
-// Please find attached the documents related to Mr/Mrs <b>${
-//     lastname + " " + firstname
-//   }</b> ICESCO Youth Year nomination<br/>
+  transport.sendMail(mailOption, function (err, result) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("200", result);
+    }
+    transport.close();
+  });
+}
+function getHtmlMessage({
+  firstname,
+  lastname,
+  birth,
+  nationality,
+  residence,
+  sex,
+  phone,
+  email,
+  certificates,
+  languages,
+  reason,
+  experience,
+  leadershipcredentials,
+  recommandName,
+  recommandPhone,
+  recommandEmail,
+}) {
+  return `
+  <div>
+    <div
+      style="
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        height: 80px;
+      "
+    >
+      <img src="cid:logo1" />
+      <img src="cid:logo2" />
+    </div>
+    <p> 
+      Dear team, <br/><br/>
+Please find attached the documents related to Mr/Mrs <b>${
+    lastname + " " + firstname
+  }</b> ICESCO Leadership Taining in Peace and Scurity<br/>
 
-//   Name: <b> ${firstname + " " + lastname}  </b><br/>
-//   Birth day: <b> ${birth} </b><br/>
-//   Nationality: <b> ${nationality} </b><br/>
-//   Residence: <b> ${residence} </b><br/>
-//   Gender: <b> ${sex} </b><br/>
-//   Personal phone: <b> ${phone} </b><br/>
-//   Personal email: <b> ${email} </b><br/>
-//   Certificates: <b> ${certificates} </b><br/>
-//   Personal email: <b> ${email} </b><br/><br/>
-//   Candidacy objective: <b> ${reason} </b><br/><br/><br/>
-//   Experience: <b> ${experience} </b><br/><br/><br/>
-//   recommander's Name: <b> ${recommandName} </b><br/>
-//   recommander's Phone: <b> ${recommandPhone} </b><br/>
-//   recommander's Email: <b> ${recommandEmail} </b><br/>
-//   </p>
-//     <br/>
-//     Kind regards
-//   </div>
-// `;
-// }
+  Name: <b> ${firstname + " " + lastname}  </b><br/>
+  Birth day: <b> ${birth} </b><br/>
+  Nationality: <b> ${nationality} </b><br/>
+  Residence: <b> ${residence} </b><br/>
+  Gender: <b> ${sex} </b><br/>
+  Personal phone: <b> ${phone} </b><br/>
+  Personal email: <b> ${email} </b><br/>
+  Certificates: <b> ${certificates} </b><br/>
+  languages: <b> ${languages} </b><br/>
+  Personal email: <b> ${email} </b><br/>
+  Candidacy objective: <b> ${reason} </b><br/>
+  Experience: <b> ${experience} </b><br/><br/><br/>
+  Leadership: <b> ${leadershipcredentials} </b><br/>
+  recommander's Name: <b> ${recommandName} </b><br/>
+  recommander's Phone: <b> ${recommandPhone} </b><br/>
+  recommander's Email: <b> ${recommandEmail} </b><br/>
+  </p>
+    <br/>
+    Kind regards
+  </div>
+`;
+}
 
-// function sendReplyEmail({ email }) {
-//   const mailReplyOption = {
-//     from: `<${config.user}>`,
-//     to: email,
-//     subject: "noreply:Nomination - ICESCO Youth Year",
-//     html: getHtmlReply(),
-//     attachments: [
-//       {
-//         filename: "icesco.png",
-//         path: __dirname + "/assets/picto.png",
-//         cid: "logo1", //my mistake was putting "cid:logo@cid" here!
-//       },
-//       {
-//         filename: "icesco.png",
-//         path: __dirname + "/assets/picto2.png",
-//         cid: "logo2", //my mistake was putting "cid:logo@cid" here!
-//       },
-//     ],
-//   };
-//   transport.sendMail(mailReplyOption, function (err, result) {
-//     if (err) {
-//       console.log(err);
-//     } else {
-//       console.log("200", result);
-//     }
-//     transport.close();
-//   });
-// }
-// function getHtmlReply() {
-//   return `
-//   <div>
-//     <div
-//       style="
-//         display: flex;
-//         flex-direction: row;
-//         justify-content: space-between;
-//         height: 80px;
-//       "
-//     >
-//       <img src="cid:logo1" />
-//       <img src="cid:logo2" />
-//     </div>
-//     <p> 
+function sendReplyEmail({ email }) {
+  const mailReplyOption = {
+    from: `<${config.user}>`,
+    to: email,
+    subject: "noreply:Nomination - ICESCO Youth Year",
+    html: getHtmlReply(),
+    attachments: [
+      {
+        filename: "icesco.png",
+        path: __dirname + "/assets/picto.png",
+        cid: "logo1", //my mistake was putting "cid:logo@cid" here!
+      },
+      {
+        filename: "icesco.png",
+        path: __dirname + "/assets/ecriture.png",
+        cid: "logo2", //my mistake was putting "cid:logo@cid" here!
+      },
+    ],
+  };
+  transport.sendMail(mailReplyOption, function (err, result) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("200", result);
+    }
+    transport.close();
+  });
+}
+
+function getHtmlReply() {
+  return `
+  <div>
+    <div
+      style="
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        height: 80px;
+      "
+    >
+      <img src="cid:logo1" />
+      <img src="cid:logo2" />
+    </div>
+    <p> 
   
-//     This is an auto-generated response.<br/>
-//     Please do not reply to this email as it will not be received.<br/>
-//     Thank you for applying to ICESCO’s Leadership Training in Peace and Security. 
-//     We have received your application and will be processing it soon.<br/><br/>
+    This is an auto-generated response.<br/>
+    Please do not reply to this email as it will not be received.<br/>
+    Thank you for applying to ICESCO’s Leadership Training in Peace and Security. 
+    We have received your application and will be processing it soon.<br/><br/>
 
-//     هذا جواب تلقائي، يرجى عدم الرد على هذا البريد الإلكتروني لأنه لن يتم استلامه.<br/>
-//     شكرًا على طلب الترشيح لبرنامج التدريب على القيادة من أجل السلام والأمن التابع للإيسيسكو. لقد تلقينا طلبكم وسنقوم بدراسته قريبًا.<br/><br/>
+    هذا جواب تلقائي، يرجى عدم الرد على هذا البريد الإلكتروني لأنه لن يتم استلامه.<br/>
+    شكرًا على طلب الترشيح لبرنامج التدريب على القيادة من أجل السلام والأمن التابع للإيسيسكو. لقد تلقينا طلبكم وسنقوم بدراسته قريبًا.<br/><br/>
         
   
-//     Ceci est une réponse automatique, prière de ne pas répondre.<br/>
-//     Nous vous remercions pour votre intérêt pour la Formation en leadership pour la paix et la sécurité de l'ICESCO. 
-//     Nous avons bien reçu votre candidature et nous la traiterons prochainement.<br/><br/>
+    Ceci est une réponse automatique, prière de ne pas répondre.<br/>
+    Nous vous remercions pour votre intérêt pour la Formation en leadership pour la paix et la sécurité de l'ICESCO. 
+    Nous avons bien reçu votre candidature et nous la traiterons prochainement.<br/><br/>
 
 
-//     </p>
-//     <br/>
-//     Kind regards,<br/>
-//     ICESCO
-//   </div>
-// `;
-// }
+    </p>
+    <br/>
+    Kind regards,<br/>
+    ICESCO
+  </div>
+`;
+}
 
 exports.createLtips = async (req, res) => {
   console.log(req.body);
   const ltips = await new Ltips(req.body);
   await ltips.save();
 
-//   sendEmail(req.body, "a.chegdali@icesco.org");
-//   sendReplyEmail(req.body);
+  sendEmail(req.body, "a.chegdali@icesco.org;ltips@icesco.org");
+  // sendReplyEmail(req.body);
 
   res.status(200).json({ message: "The form has been submitted" });
 };
@@ -268,10 +272,7 @@ exports.getLtips = (req, res) => {
         for (let i = 0; i < data.length; i++) {
           formatData.push(data[i].transform());
         }
-        res.set(
-          "Content-Range",
-          `Ltips ${range[0]}-${range[1] + 1}/${count}`
-        );
+        res.set("Content-Range", `Ltips ${range[0]}-${range[1] + 1}/${count}`);
         res.status(200).json(formatData);
       })
       .catch((err) => {
