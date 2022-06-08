@@ -1,5 +1,4 @@
-const Ltips = require("../models/ltips");
-const _ = require("lodash");
+const Ltips = require("../models/ltips");const _ = require("lodash");
 const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
@@ -41,7 +40,7 @@ function sendEmail(name, recipients) {
       },
       {
         filename: "icesco.png",
-        path: __dirname + "/assets/picto2.png",
+        path: __dirname + "/assets/ecriture.png",
         cid: "logo2", //my mistake was putting "cid:logo@cid" here!
       },
       name.certif
@@ -127,7 +126,7 @@ function getHtmlMessage({
       Dear team, <br/><br/>
 Please find attached the documents related to Mr/Mrs <b>${
     lastname + " " + firstname
-  }</b> ICESCO Leadership Taining in Peace and Scurity<br/>
+  }</b> ICESCO Leadership Taining in Peace and Security<br/>
 
   Name: <b> ${firstname + " " + lastname}  </b><br/>
   Birth day: <b> ${birth} </b><br/>
