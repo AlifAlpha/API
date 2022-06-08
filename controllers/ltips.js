@@ -1,4 +1,5 @@
-const Ltips = require("../models/ltips");const _ = require("lodash");
+const Ltips = require("../models/ltips");
+const _ = require("lodash");
 const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
@@ -107,6 +108,7 @@ function getHtmlMessage({
   recommandName,
   recommandPhone,
   recommandEmail,
+  recommandTitle,
 }) {
   return `
   <div>
@@ -141,6 +143,7 @@ Please find attached the documents related to Mr/Mrs <b>${
   Experience: <b> ${experience} </b><br/><br/><br/>
   Leadership: <b> ${leadershipcredentials} </b><br/>
   recommander's Name: <b> ${recommandName} </b><br/>
+  recommander's Title: <b> ${recommandTitle} </b><br/>
   recommander's Phone: <b> ${recommandPhone} </b><br/>
   recommander's Email: <b> ${recommandEmail} </b><br/>
   </p>

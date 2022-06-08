@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const LtipsSchema = new mongoose.Schema({
   firstname: {
     type: String,
@@ -42,7 +41,7 @@ const LtipsSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
-  
+
   reason: {
     type: String,
     trim: true,
@@ -55,9 +54,12 @@ const LtipsSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
-  
 
   recommandName: {
+    type: String,
+    trim: true,
+  },
+  recommandTitle: {
     type: String,
     trim: true,
   },
