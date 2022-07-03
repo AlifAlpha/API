@@ -1,5 +1,4 @@
-const Event = require("../models/events");
-const _ = require("lodash");
+const Event = require("../models/events");const _ = require("lodash");
 exports.createEvent = async (req, res) => {
   const eventExists = await Event.findOne({ name: req.body.name });
   if (eventExists) {
@@ -7,7 +6,7 @@ exports.createEvent = async (req, res) => {
   }
   const event = await new Event(req.body);
   await event.save();
-  res.status(200).json({ ...event.transform() });
+  res.status(200).json({ message: "Invitation form is submitted" });
 };
 
 exports.getEventById = (req, res, next, id) => {
