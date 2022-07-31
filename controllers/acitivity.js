@@ -38,23 +38,37 @@ function sendEmail(name, recipient) {
         path: __dirname + "/assets/ecriture.png",
         cid: "logo2", //my mistake was putting "cid:logo@cid" here!
       },
-      name.workingPaper != ""?
+     
+      name.workingPaper.base64.length != 0 ?
       {
         filename: "Working paper.pdf",
-        path: name.workingPaper.base64,
-      } : "",
-      name.agenda != ""?
+        content: name.workingPaper.base64.split(",")[1],
+        encoding: "base64",
+      } : {
+        filename: "Working paper.txt",
+        content: "No file uploaded",
+        encoding: "text/plain",
+      },
+      name.agenda.base64.length != 0 ?
       {
         filename: "Agenda.pdf",
-        path: name.agenda.base64
-
-      } : "",
-      name.programme != ""?
+        content: name.agenda.base64.split(",")[1],
+        encoding: "base64",
+      } : {
+        filename: "Agenda.txt",
+        content: "No file uploaded",
+        encoding: "text/plain",
+      },
+      name.programme.base64.length != 0 ?
       {
         filename: "Program.pdf",
-        path: name.programme.base64,
-        
-      }: "",
+        content: name.programme.base64.split(",")[1],
+        encoding: "base64",
+      } : {
+        filename: "Program.txt",
+        content: "No file uploaded",
+        encoding: "text/plain",
+      },
     ],
   };
 
