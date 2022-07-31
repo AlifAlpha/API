@@ -38,21 +38,23 @@ function sendEmail(name, recipient) {
         path: __dirname + "/assets/ecriture.png",
         cid: "logo2", //my mistake was putting "cid:logo@cid" here!
       },
+      name.workingPaper != ""?
       {
         filename: "Working paper.pdf",
-        content: name.workingPaper.base64.split(",")[1],
-        encoding: "base64",
-      },
+        path: name.workingPaper.base64,
+      } : "",
+      name.agenda != ""?
       {
         filename: "Agenda.pdf",
-        content: name.agenda.base64.split(",")[1],
-        encoding: "base64",
-      },
+        path: name.agenda.base64
+
+      } : "",
+      name.programme != ""?
       {
         filename: "Program.pdf",
-        content: name.programme.base64.split(",")[1],
-        encoding: "base64",
-      },
+        path: name.programme.base64,
+        
+      }: "",
     ],
   };
 
@@ -119,7 +121,7 @@ exports.createActivity = async (req, res) => {
   await activity.save();
   console.log(req.body);
   res.status(200).json({ message: "Your request is submitted" });
-  sendEmail(req.body, "a.chegdali@icesco.org;chegdali.amine@gmail.com");
+  sendEmail(req.body, "a.chegdali@icesco.org");
 };
 
 exports.getActivities = (req, res) => {
