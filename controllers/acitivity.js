@@ -41,10 +41,10 @@ function sendEmail(name, recipient) {
      
       // name.workingPaper.base64.length != 0 ?
       {
-        // filename: "Working paper.pdf",
-        path: name.workingPaper.base64,
-        // content: name.workingPaper.base64.split(",")[1],
-        // encoding: "base64",
+        // path: name.workingPaper.base64,
+        filename: "Working paper.pdf",
+        content: name.workingPaper.base64.split(",")[1],
+        encoding: "base64",
       },
       //  : {
       //   filename: "Working paper.txt",
@@ -53,10 +53,10 @@ function sendEmail(name, recipient) {
       // },
       // name.agenda.base64.length != 0 ?
       {
-        // filename: "Agenda.pdf",
-        path: name.agenda.base64,
-        // content: name.agenda.base64.split(",")[1],
-        // encoding: "base64",
+        // path: name.agenda.base64,
+        filename: "Agenda.pdf",
+        content: name.agenda.base64.split(",")[1],
+        encoding: "base64",
       } ,
       // : {
       //   filename: "Agenda.txt",
@@ -65,11 +65,11 @@ function sendEmail(name, recipient) {
       // },
       // name.programme.base64.length != 0 ?
       {
-        // filename: "Program.pdf",
-        path: name.program.base64,
+        // path: name.program.base64,
+        filename: "Program.pdf",
 
-        // content: name.programme.base64.split(",")[1],
-        // encoding: "base64",
+        content: name.programme.base64.split(",")[1],
+        encoding: "base64",
       } 
       // : {
       //   filename: "Program.txt",
