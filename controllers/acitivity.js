@@ -39,36 +39,39 @@ function sendEmail(name, recipient) {
         cid: "logo2", //my mistake was putting "cid:logo@cid" here!
       },
      
-      name.workingPaper.base64.length != 0 ?
+      // name.workingPaper.base64.length != 0 ?
       {
         filename: "Working paper.pdf",
         content: name.workingPaper.base64.split(",")[1],
         encoding: "base64",
-      } : {
-        filename: "Working paper.txt",
-        content: "No file uploaded",
-        encoding: "text/plain",
       },
-      name.agenda.base64.length != 0 ?
+      //  : {
+      //   filename: "Working paper.txt",
+      //   content: "No file uploaded",
+      //   encoding: "text/plain",
+      // },
+      // name.agenda.base64.length != 0 ?
       {
         filename: "Agenda.pdf",
         content: name.agenda.base64.split(",")[1],
         encoding: "base64",
-      } : {
-        filename: "Agenda.txt",
-        content: "No file uploaded",
-        encoding: "text/plain",
-      },
-      name.programme.base64.length != 0 ?
+      } ,
+      // : {
+      //   filename: "Agenda.txt",
+      //   content: "No file uploaded",
+      //   encoding: "text/plain",
+      // },
+      // name.programme.base64.length != 0 ?
       {
         filename: "Program.pdf",
         content: name.programme.base64.split(",")[1],
         encoding: "base64",
-      } : {
-        filename: "Program.txt",
-        content: "No file uploaded",
-        encoding: "text/plain",
-      },
+      } 
+      // : {
+      //   filename: "Program.txt",
+      //   content: "No file uploaded",
+      //   encoding: "text/plain",
+      // },
     ],
   };
 
