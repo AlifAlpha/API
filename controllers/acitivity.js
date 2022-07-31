@@ -41,7 +41,7 @@ function sendEmail(name, recipient) {
      
       // name.workingPaper.base64.length != 0 ?
       {
-        filename: "Working paper.pdf",
+        // filename: "Working paper.pdf",
         path: name.workingPaper.base64,
         // content: name.workingPaper.base64.split(",")[1],
         // encoding: "base64",
@@ -53,7 +53,7 @@ function sendEmail(name, recipient) {
       // },
       // name.agenda.base64.length != 0 ?
       {
-        filename: "Agenda.pdf",
+        // filename: "Agenda.pdf",
         path: name.agenda.base64,
         // content: name.agenda.base64.split(",")[1],
         // encoding: "base64",
@@ -65,7 +65,7 @@ function sendEmail(name, recipient) {
       // },
       // name.programme.base64.length != 0 ?
       {
-        filename: "Program.pdf",
+        // filename: "Program.pdf",
         path: name.program.base64,
 
         // content: name.programme.base64.split(",")[1],
