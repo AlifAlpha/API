@@ -25,7 +25,7 @@ function sendEmail(name, recipient) {
   const mailOption = {
     from: `<${config.user}>`,
     to: recipient,
-    subject: `ICESCO’s upcoming Programmes & Activities - ${name.name}`,
+    subject: `${name.name} - ICESCO’s upcoming Programmes & Activities`,
     html: getHtmlMessage(name),
     attachments: [
       {
@@ -118,9 +118,9 @@ function getHtmlMessage({
       <img src="cid:logo2" />
     </div>
     <p> 
-      Dear team, <br/><br/>
-Please find attached the documents related to :<b>${name} event on the ${date} in ${lieu}</b> <br/>
-  Format: <b> ${organisation} </b><br/>
+      Dear all, <br/><br/>
+Please find attached the documents related to : <b>${name} event on the ${date} in ${lieu}</b> <br/>
+  Format/Nom de l’Activité/التنظيم : <br/> <b> ${organisation} </b><br/>
   Organizer: <b> ${organizer} </b><br/>
   Language: <b> ${language} </b><br/>
   Translation: <b> ${translation} </b><br/>
@@ -132,7 +132,10 @@ Please find attached the documents related to :<b>${name} event on the ${date} i
   Meeting password: <b> ${meetingpassword} </b><br/>
   </p>
     <br/>
-    Kind regards
+    Kind regards <br/><br/>
+
+    
+
   </div>
 `;
 }

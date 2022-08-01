@@ -48,6 +48,10 @@ const activitySchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  meetingpassword: {
+    type: String,
+    trim: true,
+  },
 });
 activitySchema.method("transform", function () {
   var obj = this.toObject();
