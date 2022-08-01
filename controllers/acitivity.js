@@ -119,16 +119,16 @@ function getHtmlMessage({
     </div>
     <p> 
       Dear all, <br/><br/>
-Please find attached the documents related to : <b>${name} event on the ${date} in ${lieu}</b> <br/>
-  Format/Nom de l’Activité/التنظيم : <br/> <b> ${organisation} </b><br/>
-  Organizer: <b> ${organizer} </b><br/>
-  Language: <b> ${language} </b><br/>
-  Translation: <b> ${translation} </b><br/>
-  Action required: <br><b> ${actionRequired} </b><br/>
-  Contact: <b> ${contact} </b><br/>
-  Email: <b> ${email} </b><br/>
-  Phone: <b> ${phone} </b><br/>
-  ZoomLink: <b> ${zoomLink} </b><br/>
+Please find attached the documents related to : <b>${name} event </b> on the <b> ${date} </b> in <b> ${lieu}</b> <br/><br/><br/>
+  Format / Organisation / التنظيم :  <b> ${organisation} </b><br/>
+  Organizer / Parties organisatrices / الجهات المنظمة: <b> ${organizer} </b><br/>
+  Languages / Langues de travail / لغات العمل: <b> ${language} </b><br/>
+  Translation / Interprétariat / الترجمة الفورية: <b> ${translation} </b><br/>
+  Action required / Action requise de la commission / المطلوب من اللجنة: <br><b> ${actionRequired} </b><br/>
+  ICESCO Contact / Partie de contact à l’ICESCO / جهة التواصل في الإيسيسكو: : <b> ${contact} </b><br/>
+  Email / البريد الإلكتروني: <b> ${email} </b><br/>
+  Telehone / الجوال: <b> ${phone} </b><br/>
+  Zoom Link / Lien Zoom / رابط زووم: <b> ${zoomLink} </b><br/>
   Meeting password: <b> ${meetingpassword} </b><br/>
   </p>
     <br/>
