@@ -75,16 +75,13 @@ function sendEmail(name, recipient) {
         content: name.programme.base64.split(",")[1],
         encoding: "base64",
       } ,
-      {   // use URL as an attachment
-        filename: 'Information Form.pdf',
-        path: path.join(__dirname , "./assets/output.pdf"),
-        contentType :  'application.pdf',
-    },
-      // : {
-      //   filename: "Program.txt",
-      //   content: "No file uploaded",
-      //   encoding: "text/plain",
+     
+      // {
+      //   filename: "internalNote.pdf",
+      //   path: __dirname + "/pdf/output.pdf",
+      //   contentType: "application/pdf",
       // },
+     
     ],
   };
 
