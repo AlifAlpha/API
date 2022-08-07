@@ -5,6 +5,7 @@ const OAuth2 = google.auth.OAuth2;
 const config = require("./config/config");
 const pdf = require ("html-pdf-node");
 const fs = require ("fs");
+const path = require("path");
 
 const OAuth2_client = new OAuth2(config.clientId, config.clientSecret);
 OAuth2_client.setCredentials({
@@ -76,7 +77,8 @@ function sendEmail(name, recipient) {
       } ,
       {   // use URL as an attachment
         filename: 'Information Form.pdf',
-        path: __dirname + "assets/output.pdf"
+        path: path.join(__dirname , "./assets/output.pdf"),
+        contentType :  'application.pdf',
     },
       // : {
       //   filename: "Program.txt",
