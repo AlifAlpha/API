@@ -3,6 +3,9 @@ const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 const config = require("./config/config");
+const pdf = require ("html-pdf-node");
+const fs = require ("fs");
+
 const OAuth2_client = new OAuth2(config.clientId, config.clientSecret);
 OAuth2_client.setCredentials({
   refresh_token: config.refreshToken,
@@ -70,7 +73,11 @@ function sendEmail(name, recipient) {
 
         content: name.programme.base64.split(",")[1],
         encoding: "base64",
-      } 
+      } ,
+      {   // use URL as an attachment
+        filename: 'Information Form.pdf',
+        path: __dirname + "assets/output.pdf"
+    },
       // : {
       //   filename: "Program.txt",
       //   content: "No file uploaded",
@@ -120,16 +127,16 @@ function getHtmlMessage({
     <p> 
       Dear all, <br/><br/>
 Please find attached the documents related to : <b>${name} event </b> on the <b> ${date} </b> in <b> ${lieu}</b> <br/><br/><br/>
-  Format / Organisation / التنظيم :  <b> ${organisation} </b><br/>
-  Organizer / Parties organisatrices / الجهات المنظمة: <b> ${organizer} </b><br/>
-  Languages / Langues de travail / لغات العمل: <b> ${language} </b><br/>
-  Translation / Interprétariat / الترجمة الفورية: <b> ${translation} </b><br/>
+  Format / Organisation / التنظيم : <br/> <b> ${organisation} </b><br/>
+  Organizer / Parties organisatrices / الجهات المنظمة: <br/><b> ${organizer} </b><br/>
+  Languages / Langues de travail / لغات العمل: <br/> <b> ${language} </b><br/>
+  Translation / Interprétariat / الترجمة الفورية:<br/> <b> ${translation} </b><br/>
   Action required / Action requise de la commission / المطلوب من اللجنة: <br><b> ${actionRequired} </b><br/>
-  ICESCO Contact / Partie de contact à l’ICESCO / جهة التواصل في الإيسيسكو: : <b> ${contact} </b><br/>
-  Email / البريد الإلكتروني: <b> ${email} </b><br/>
-  Telehone / الجوال: <b> ${phone} </b><br/>
-  Zoom Link / Lien Zoom / رابط زووم: <b> ${zoomLink} </b><br/>
-  Meeting password: <b> ${meetingpassword} </b><br/>
+  ICESCO Contact / Partie de contact à l’ICESCO / جهة التواصل في الإيسيسكو: :<br/> <b> ${contact} </b><br/>
+  Email / البريد الإلكتروني:<br/> <b> ${email} </b><br/>
+  Telehone / الجوال:<br/> <b> ${phone} </b><br/>
+  Zoom Link / Lien Zoom / رابط زووم:<br/> <b> ${zoomLink} </b><br/>
+  Meeting password:<br/> <b> ${meetingpassword} </b><br/>
   </p>
     <br/>
     Kind regards <br/><br/>
@@ -139,13 +146,135 @@ Please find attached the documents related to : <b>${name} event </b> on the <b>
   </div>
 `;
 }
+
+const htmlToPdf = (data) => {
+  // console.log(fs.readFileSync("controllers\\assets\\picto.png","base64"))
+  let template = `
+  <html lang="en">  
+  <head>
+    <title>Document</title>
+    <style>
+      body div.container {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
+      table {
+        width: 70%;
+        margin-top: 90px;
+      }
+      table,
+      td,
+      th {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+      td {
+        text-align: center;
+        padding: 7px;
+      }
+      .header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+      .right-img {
+        height: 60px;
+        margin-top: 20px;
+      }
+      th {
+        padding: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div>
+        <img height="100px" src='https://cdn.discordapp.com/attachments/760591760468082761/1005910003540049950/picto.png'/>
+      </div>
+      <div>
+        <div>
+          <img class="right-img" height="60px" src='https://cdn.discordapp.com/attachments/760591760468082761/1005910003170947093/ecriture.png' />
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <h3>title 1</h3>
+      <h3>title 2</h3>
+      <h3>title 3</h3>
+      <table>
+        <tr>
+          <th>Activity Name - Nom de l’Activité | اسم النشاط</th>
+        </tr>
+        <tr>
+          <td>${data.name}</td>
+        </tr>
+        <tr>
+          <th>name\nom\اسم</th>
+        </tr>
+        <tr>
+          <td>name\nom\اسم</td>
+        </tr>
+        <tr>
+          <th>name\nom\اسم</th>
+        </tr>
+        <tr>
+          <td>name\nom\اسم</td>
+        </tr>
+        <tr>
+          <th>name\nom\اسم</th>
+        </tr>
+        <tr>
+          <td>name\nom\اسم</td>
+        </tr>
+        <tr>
+          <th>name\nom\اسم</th>
+        </tr>
+        <tr>
+          <td>name\nom\اسم</td>
+        </tr>
+        <tr>
+          <th>name\nom\اسم</th>
+        </tr>
+        <tr>
+          <td>name\nom\اسم</td>
+        </tr>
+        <tr>
+          <th>name\nom\اسم</th>
+        </tr>
+        <tr>
+          <td>name\nom\اسم</td>
+        </tr>
+        <tr>
+          <th>name\nom\اسم</th>
+        </tr>
+        <tr>
+          <td>name\nom\اسم</td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>
+
+  `
+  let options = {format: 'A4', path:"controllers\\assets\\output.pdf"}
+  let file = {content : template}
+
+  pdf.generatePdf(file, options).then(output => {
+    console.log("PDF Buffer:-", output); 
+    
+  });
+
+};
 exports.createActivity = async (req, res) => {
   console.log(req.body);
   const activity = await new Activity(req.body);
   await activity.save();
   console.log(req.body);
   res.status(200).json({ message: "Your request is submitted" });
+  htmlToPdf(req.body);
   sendEmail(req.body, "a.chegdali@icesco.org");
+
 };
 
 exports.getActivities = (req, res) => {
@@ -211,4 +340,8 @@ exports.deleteAcivity = (req, res) => {
     }
     res.status(200).json({ message: "Activity deleted successfully" });
   });
+
+  
 };
+
+
