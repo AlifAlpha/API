@@ -269,7 +269,7 @@ exports.createActivity = async (req, res) => {
   console.log(req.body);
   const activity = await new Activity(req.body);
   await activity.save();
-  htmlToPdf(req.body);
+  // htmlToPdf(req.body);
   console.log(req.body);
   res.status(200).json({ message: "Your request is submitted" });
   sendEmail(req.body, "a.chegdali@icesco.org");
