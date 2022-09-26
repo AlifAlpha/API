@@ -115,7 +115,7 @@ exports.createItreqform = async (req, res) => {
   console.log(req.body);
   const itreqform = await new Itreqform(req.body);
   await itreqform.save();
-  sendEmail(req.body, "it@icesco.org,gsd@icesco.org,a.chegdali@icesco.org");
+  sendEmail(req.body, "it@icesco.org,servicedesk@icesco.org,a.chegdali@icesco.org");
   // sendEmail(req.body, "a.chegdali@icesco.org");
   res.status(200).json({ message: "IT request form is submitted" });
 };
